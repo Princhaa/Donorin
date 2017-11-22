@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard, DatePickerIOS, Button } from 'react-native'
+import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard, DatePickerIOS, Button, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 // import RNGooglePlacePicker from 'react-native-google-place-picker'
@@ -106,83 +106,87 @@ class EditProfile extends Component {
 
 	render() {
 		return(
-			<View style={styles.container}>
-				<View style={styles.center}>
-					<CustomTextInput style={styles.textInput} placeholder={'Nama'} onChangeText={(value) => this.setState({ name: value })}>
-						<Icon name={'person'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Nomor Telepon'} keyboardType={'numeric'} onChangeText={(value) => this.setState({ phone: value })}>
-						<Icon name={'local-phone'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()}>
-						<Icon name={'place'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Tanggal Lahir'} value={this.state.birthday} onFocus={() => this.openDate('birthday')}>
-						<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Donor terakhir'} value={this.state.lastDonor} onFocus={() => this.openDate('lastDonor')}>
-						<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<Text style={[styles.radioText, {  marginLeft: 30 ,marginVertical: 5, alignSelf: 'flex-start' }]}>Golongan darah</Text>
-					<View style={{ flexDirection: 'row', marginVertical: 5 }}>
-						<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'A' })}>
-							<Icon name={this.state.selectedBlood == 'A' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.radioText}>A</Text>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'B' })}>
-							<Icon name={this.state.selectedBlood == 'B' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.radioText}>B</Text>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'O' })}>
-							<Icon name={this.state.selectedBlood == 'O' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.radioText}>O</Text>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'AB' })}>
-							<Icon name={this.state.selectedBlood == 'AB' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.radioText}>AB</Text>
-						</TouchableOpacity>
+			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+				<ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
+					<View style={styles.container}>
+						<View style={styles.center}>
+							<CustomTextInput style={styles.textInput} placeholder={'Nama'} onChangeText={(value) => this.setState({ name: value })} ref={(ref) => this.nameRef = ref} onSubmitEditing={() => this.phoneRef.focus()} returnKeyType={'next'}>
+								<Icon name={'person'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+							</CustomTextInput>
+							<CustomTextInput style={styles.textInput} placeholder={'Nomor Telepon'} keyboardType={'numeric'} onChangeText={(value) => this.setState({ phone: value })} ref={(ref) => this.phoneRef = ref} onSubmitEditing={() => this.addressRef.focus()} returnKeyType={'next'}>
+								<Icon name={'local-phone'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+							</CustomTextInput>
+							<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()} ref={(ref) => this.addressRef = ref}>
+								<Icon name={'place'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+							</CustomTextInput>
+							<CustomTextInput style={styles.textInput} placeholder={'Tanggal Lahir'} value={this.state.birthday} onFocus={() => this.openDate('birthday')}>
+								<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+							</CustomTextInput>
+							<CustomTextInput style={styles.textInput} placeholder={'Donor terakhir'} value={this.state.lastDonor} onFocus={() => this.openDate('lastDonor')}>
+								<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+							</CustomTextInput>
+							<Text style={[styles.radioText, {  marginLeft: 30 ,marginVertical: 5, alignSelf: 'flex-start' }]}>Golongan darah</Text>
+							<View style={{ flexDirection: 'row', marginVertical: 5 }}>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'A' })}>
+									<Icon name={this.state.selectedBlood == 'A' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+									<Text style={styles.radioText}>A</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'B' })}>
+									<Icon name={this.state.selectedBlood == 'B' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+									<Text style={styles.radioText}>B</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'O' })}>
+									<Icon name={this.state.selectedBlood == 'O' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+									<Text style={styles.radioText}>O</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedBlood: 'AB' })}>
+									<Icon name={this.state.selectedBlood == 'AB' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+									<Text style={styles.radioText}>AB</Text>
+								</TouchableOpacity>
+							</View>
+							<Text style={[styles.radioText, {  marginLeft: 30 ,marginVertical: 5, alignSelf: 'flex-start' }]}>Rhesus darah</Text>
+							<View style={{ flexDirection: 'row', marginVertical: 5 }}>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'positive' })}>
+									<Icon name={this.state.selectedRhesus == 'positive' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+									<Text style={styles.radioText}>Positif</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'negative' })}>
+									<Icon name={this.state.selectedRhesus == 'negative' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+									<Text style={styles.radioText}>Negatif</Text>
+								</TouchableOpacity>
+							</View>
+							<CustomButton style={styles.button} onPress={() => this.submitProfile()}>
+								<Text style={styles.buttonText}>Edit</Text>
+							</CustomButton>
+						</View>
+						<Modal isVisible={this.state.visibleModal} style={styles.bottomModal}>
+							<View style={styles.modalContent}>
+								<DatePickerIOS 
+									date={this.state.datepick}
+									mode={'date'}
+									onDateChange={(date) => {
+										this.setState({ datepick: date })
+										let day = date.getDate()
+										if (day < 10) {
+											day = '0'+day
+										}
+										if (this.state.activeDate == 'birthday') {
+											this.setState({ birthday: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })						
+										} else {
+											this.setState({ lastDonor: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })
+										}
+									}}
+								/>
+								<Button 
+									title={'Set'}
+									color={metrics.COLOR_PRIMARY}
+									onPress={() => this.setState({ visibleModal: false })}
+								/>
+							</View>
+						</Modal>
 					</View>
-					<Text style={[styles.radioText, {  marginLeft: 30 ,marginVertical: 5, alignSelf: 'flex-start' }]}>Rhesus darah</Text>
-					<View style={{ flexDirection: 'row', marginVertical: 5 }}>
-						<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'positive' })}>
-							<Icon name={this.state.selectedRhesus == 'positive' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.radioText}>Positif</Text>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'negative' })}>
-							<Icon name={this.state.selectedRhesus == 'negative' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.radioText}>Negatif</Text>
-						</TouchableOpacity>
-					</View>
-					<CustomButton style={styles.button} onPress={() => this.submitProfile()}>
-						<Text style={styles.buttonText}>Edit</Text>
-					</CustomButton>
-				</View>
-				<Modal isVisible={this.state.visibleModal} style={styles.bottomModal}>
-					<View style={styles.modalContent}>
-						<DatePickerIOS 
-							date={this.state.datepick}
-							mode={'date'}
-							onDateChange={(date) => {
-								this.setState({ datepick: date })
-								let day = date.getDate()
-								if (day < 10) {
-									day = '0'+day
-								}
-								if (this.state.activeDate == 'birthday') {
-									this.setState({ birthday: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })						
-								} else {
-									this.setState({ lastDonor: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })
-								}
-							}}
-						/>
-						<Button 
-							title={'Set'}
-							color={metrics.COLOR_PRIMARY}
-							onPress={() => this.setState({ visibleModal: false })}
-						/>
-					</View>
-				</Modal>
-			</View>
+				</ScrollView>
+			</TouchableWithoutFeedback>
 		)
 	}
 

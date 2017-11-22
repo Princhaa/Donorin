@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button, DatePickerAndroid, Keyboard, DatePickerIOS } from 'react-native'
+import { View, Text, StyleSheet, Button, DatePickerAndroid, Keyboard, DatePickerIOS, TouchableWithoutFeedback } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 // import RNGooglePlacePicker from 'react-native-google-place-picker'
 import RNGooglePlaces from 'react-native-google-places'
 import Modal from 'react-native-modal'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
@@ -77,46 +78,49 @@ export default class NewEvent extends Component {
 
 	render() {
 		return(
-			<View style={styles.container}>
-				<View style={styles.center}>
-					<CustomTextInput style={styles.textInput} placeholder={'Nama Event'}>
-						<MCI name={'rename-box'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Tanggal Event'} value={this.state.date} onFocus={() => this.openDate()}>
-						<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Waktu Event'}>
-						<Icon name={'access-time'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()}>
-						<Icon name={'place'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
-					</CustomTextInput>
-					<CustomButton style={styles.button} onPress={() => this.props.navigation.goBack(null)}>
-						<Text style={styles.buttonText}>Submit</Text>
-					</CustomButton>
-				</View>
-				<Modal isVisible={this.state.visibleModal} style={styles.bottomModal}>
-					<View style={styles.modalContent}>
-						<DatePickerIOS 
-							date={this.state.datepick}
-							mode={'date'}
-							onDateChange={(date) => {
-								this.setState({ datepick: date })
-								let day = date.getDate()
-								if (day < 10) {
-									day = '0'+day
-								}
-								this.setState({ date: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })
-							}}
-						/>
-						<Button 
-							title={'Set'}
-							color={metrics.COLOR_PRIMARY}
-							onPress={() => this.setState({ visibleModal: false })}
-						/>
+			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+				<View style={styles.container}>
+					<View style={styles.center}>
+						<CustomTextInput style={styles.textInput} placeholder={'Nama Event'}>
+							<MCI name={'rename-box'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+						</CustomTextInput>
+						<CustomTextInput style={styles.textInput} placeholder={'Tanggal Event'} value={this.state.date} onFocus={() => this.openDate()}>
+							<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+						</CustomTextInput>
+						<CustomTextInput style={styles.textInput} placeholder={'Waktu Event'}>
+							<Icon name={'access-time'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+						</CustomTextInput>
+						<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()}>
+							<Icon name={'place'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
+						</CustomTextInput>
+						<CustomButton style={styles.button} onPress={() => this.props.navigation.goBack(null)}>
+							<Text style={styles.buttonText}>Submit</Text>
+						</CustomButton>
 					</View>
-				</Modal>
-			</View>
+					<Modal isVisible={this.state.visibleModal} style={styles.bottomModal}>
+						<View style={styles.modalContent}>
+							<DatePickerIOS 
+								date={this.state.datepick}
+								mode={'date'}
+								onDateChange={(date) => {
+									this.setState({ datepick: date })
+									let day = date.getDate()
+									if (day < 10) {
+										day = '0'+day
+									}
+									this.setState({ date: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })
+								}}
+							/>
+							<Button 
+								title={'Set'}
+								color={metrics.COLOR_PRIMARY}
+								onPress={() => this.setState({ visibleModal: false })}
+							/>
+						</View>
+					</Modal>
+					<KeyboardSpacer />					
+				</View>
+			</TouchableWithoutFeedback>
 		)
 	}
 
