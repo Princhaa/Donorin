@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert } fr
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 // import RNGooglePlacePicker from 'react-native-google-place-picker'
+import RNGooglePlaces from 'react-native-google-places'
 import { connect } from 'react-redux'
 
 import CustomButton from '../components/CustomButton'
@@ -31,21 +32,29 @@ class EditProfile extends Component {
 		title: 'Edit Profile'
 	}
 
-	// selectPlace() {
-	// 	RNGooglePlacePicker.show((response) => {
-	// 		if (response.didCancel) {
-	// 			console.log('User cancelled GooglePlacePicker')
-	// 		}
-	// 		else if (response.error) {
-	// 			console.log('GooglePlacePicker Error: ', response.error)
-	// 		}
-	// 		else {
-	// 			this.setState({
-	// 				location: response.address
-	// 			})
-	// 		}
-	// 	})
-	// }
+	selectPlace() {
+		RNGooglePlaces.openPlacePickerModal()
+			.then((place) => {
+				this.setState({ location: place.address })
+				// place represents user's selection from the
+				// suggestions and it is a simplified Google Place object.
+			})
+			.catch(error => console.log(error.message))  // error is a Javascript Error object
+	}
+	// RNGooglePlacePicker.show((response) => {
+	// 	if (response.didCancel) {
+	// 		console.log('User cancelled GooglePlacePicker')
+	// 	}
+	// 	else if (response.error) {
+	// 		console.log('GooglePlacePicker Error: ', response.error)
+	// 	}
+	// 	else {
+	// 		this.setState({
+	// 			location: response.address
+	// 		})
+	// 	}
+	// })
+	//}
 
 	async submitProfile() {
 		const { name, phone, location, birthday, selectedBlood, lastDonor } = this.state
