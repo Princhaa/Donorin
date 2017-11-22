@@ -13,6 +13,8 @@ import MainScreen from '../../screens/MainScreen'
 import EditProfile from '../../screens/EditProfile'
 import ChangePassword from '../../screens/ChangePassword'
 import RequestBlood from '../../screens/RequestBlood'
+import AdminMain from '../../screens/AdminMain'
+import NewEvent from '../../screens/NewEvent'
 
 const App = StackNavigator({
 	Login: { screen: LoginScreen },
@@ -20,7 +22,9 @@ const App = StackNavigator({
 	Main: { screen: MainScreen },
 	EditProfile: { screen: EditProfile },
 	ChangePassword: { screen: ChangePassword },
-	RequestBlood: { screen: RequestBlood }
+	RequestBlood: { screen: RequestBlood },
+	AdminMain: { screen: AdminMain },
+	NewEvent: { screen: NewEvent }
 }, {
 	initialRouteName: 'Login',
 	navigationOptions: {

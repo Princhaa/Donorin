@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 // import RNGooglePlacePicker from 'react-native-google-place-picker'
+import RNGooglePlaces from 'react-native-google-places'
 
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
@@ -23,21 +24,28 @@ export default class RequestBlood extends Component {
 		title: 'Request Blood'
 	}
 
-	// selectPlace() {
-	// 	RNGooglePlacePicker.show((response) => {
-	// 		if (response.didCancel) {
-	// 			console.log('User cancelled GooglePlacePicker');
-	// 		}
-	// 		else if (response.error) {
-	// 			console.log('GooglePlacePicker Error: ', response.error);
-	// 		}
-	// 		else {
-	// 			this.setState({
-	// 				location: response.address
-	// 			})
-	// 		}
-	// 	})
-	// }
+	selectPlace() {
+		// RNGooglePlacePicker.show((response) => {
+		// 	if (response.didCancel) {
+		// 		console.log('User cancelled GooglePlacePicker');
+		// 	}
+		// 	else if (response.error) {
+		// 		console.log('GooglePlacePicker Error: ', response.error);
+		// 	}
+		// 	else {
+		// 		this.setState({
+		// 			location: response.address
+		// 		})
+		// 	}
+		// })
+		RNGooglePlaces.openPlacePickerModal()
+			.then((place) => {
+				this.setState({ location: place.address })
+				// place represents user's selection from the
+				// suggestions and it is a simplified Google Place object.
+			})
+			.catch(error => console.log(error.message))
+	}
 
 	render() {
 		return(

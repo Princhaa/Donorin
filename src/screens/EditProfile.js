@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard, DatePickerIOS, Button } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 // import RNGooglePlacePicker from 'react-native-google-place-picker'
 import RNGooglePlaces from 'react-native-google-places'
 import { connect } from 'react-redux'
+import Modal from 'react-native-modal'
 
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
@@ -24,7 +25,10 @@ class EditProfile extends Component {
 			selectedRhesus: 'positive',
 			location: null,
 			birthday: null,
-			lastDonor: null
+			lastDonor: null,
+			visibleModal: false,
+			datepick: new Date(),
+			activeDate: null
 		}
 	}
 
@@ -73,25 +77,30 @@ class EditProfile extends Component {
 	}
 
 	async openDate(field) {
-		try {
-			let {action, year, month, day} = await DatePickerAndroid.open({
-				// Use `new Date()` for current date.
-				// May 25 2020. Month 0 is January.
-				date: new Date()
-			})
-			if (action !== DatePickerAndroid.dismissedAction) {
-				// Selected year, month (0-11), day
-				if (day < 10) {
-					day = '0'+day
+		Keyboard.dismiss()
+		if (metrics.OS == 'android') {
+			try {
+				let {action, year, month, day} = await DatePickerAndroid.open({
+					// Use `new Date()` for current date.
+					// May 25 2020. Month 0 is January.
+					date: new Date()
+				})
+				if (action !== DatePickerAndroid.dismissedAction) {
+					// Selected year, month (0-11), day
+					if (day < 10) {
+						day = '0'+day
+					}
+					if (field == 'birthday') {
+						this.setState({ birthday: year + '-' + (month+1) + '-' + day })
+					} else {
+						this.setState({ lastDonor: year + '-' + (month+1) + '-' + day })				
+					}
 				}
-				if (field == 'birthday') {
-					this.setState({ birthday: year + '-' + (month+1) + '-' + day })
-				} else {
-					this.setState({ lastDonor: year + '-' + (month+1) + '-' + day })				
-				}
+			} catch ({code, message}) {
+				console.warn('Cannot open date picker', message)
 			}
-		} catch ({code, message}) {
-			console.warn('Cannot open date picker', message)
+		} else {
+			this.setState({ visibleModal: true, activeDate: field })
 		}
 	}
 
@@ -148,6 +157,31 @@ class EditProfile extends Component {
 						<Text style={styles.buttonText}>Edit</Text>
 					</CustomButton>
 				</View>
+				<Modal isVisible={this.state.visibleModal} style={styles.bottomModal}>
+					<View style={styles.modalContent}>
+						<DatePickerIOS 
+							date={this.state.datepick}
+							mode={'date'}
+							onDateChange={(date) => {
+								this.setState({ datepick: date })
+								let day = date.getDate()
+								if (day < 10) {
+									day = '0'+day
+								}
+								if (this.state.activeDate == 'birthday') {
+									this.setState({ birthday: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })						
+								} else {
+									this.setState({ lastDonor: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + day })
+								}
+							}}
+						/>
+						<Button 
+							title={'Set'}
+							color={metrics.COLOR_PRIMARY}
+							onPress={() => this.setState({ visibleModal: false })}
+						/>
+					</View>
+				</Modal>
 			</View>
 		)
 	}
@@ -195,6 +229,18 @@ const styles = StyleSheet.create({
 	radioText: {
 		marginLeft: 5,
 		color: 'black'
+	},
+
+	bottomModal: {
+		justifyContent: 'flex-end',
+		margin: 0
+	},
+
+	modalContent: {
+		backgroundColor: 'white',
+		width: metrics.DEVICE_WIDTH,
+		height: metrics.DEVICE_HEIGHT * 0.4,
+		justifyContent: 'center'
 	}
 })
 
