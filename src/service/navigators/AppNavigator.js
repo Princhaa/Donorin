@@ -9,10 +9,16 @@ import metrics from '../../config/metrics'
 
 import LoginScreen from '../../screens/LoginScreen'
 import RegisterScreen from '../../screens/RegisterScreen'
+import MainScreen from '../../screens/MainScreen'
+import EditProfile from '../../screens/EditProfile'
+import ChangePassword from '../../screens/ChangePassword'
 
 const App = StackNavigator({
 	Login: { screen: LoginScreen },
-	Register: { screen: RegisterScreen }
+	Register: { screen: RegisterScreen },
+	Main: { screen: MainScreen },
+	EditProfile: { screen: EditProfile },
+	ChangePassword: { screen: ChangePassword }
 }, {
 	initialRouteName: 'Login',
 	navigationOptions: {
