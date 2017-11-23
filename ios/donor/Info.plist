@@ -35,6 +35,19 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Donorin ingin mengakses kamera anda</string>
+
+	<!-- Include this only if you are planning to use the camera roll -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Donorin ingin mengakses galeri anda</string>
+
+	<!-- Include this only if you are planning to use the microphone for video recording -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Donorin ingin mengakses microphone anda</string>
+	<!-- Include this only if you are planning to use the camera roll -->
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Donorin ingin mengakses galeri anda</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
