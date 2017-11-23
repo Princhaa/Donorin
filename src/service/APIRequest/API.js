@@ -9,7 +9,7 @@ const login = async (email, password, token) => {
 		body: JSON.stringify({
 			email: email,
 			password: password,
-			fcm_token: token
+			fcm_token: 'token'
 		})
 	})
 }

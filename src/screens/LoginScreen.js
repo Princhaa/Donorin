@@ -39,6 +39,7 @@ class LoginScreen extends Component {
 				this.props.navigation.navigate('EditProfile', { from: 'Login' })
 			}
 		} else {
+			console.log(response)
 			Alert.alert('Error', response.status.toString())
 		}
 	}

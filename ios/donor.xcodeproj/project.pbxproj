@@ -40,6 +40,7 @@
 		7B4884012E4F47A79BE063C0 /* libRNGooglePlaces.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64FD2B387CD14D958296C168 /* libRNGooglePlaces.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9E787E9273279F728DAF7F35 /* libPods-donorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C63EBB508B9995B3478BBEB /* libPods-donorTests.a */; };
+		A5438C8F1FC682BF00C2EE92 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5438C6F1FC682A400C2EE92 /* libRCTCamera.a */; };
 		A5D6D12E1FC56E2400FDB477 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5D6D1231FC56E2400FDB477 /* Octicons.ttf */; };
 		A5D6D12F1FC56E2400FDB477 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5D6D1241FC56E2400FDB477 /* Feather.ttf */; };
 		A5D6D1301FC56E2400FDB477 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5D6D1251FC56E2400FDB477 /* Entypo.ttf */; };
@@ -256,6 +257,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		A5438C6E1FC682A400C2EE92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5438C651FC682A300C2EE92 /* RCTCamera.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
+			remoteInfo = RCTCamera;
+		};
 		A5D6D10C1FC568CF00FDB477 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -366,6 +374,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8DBB7965203443106ADA14E3 /* Pods-donor-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-donor-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-donor-tvOSTests/Pods-donor-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9C63EBB508B9995B3478BBEB /* libPods-donorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-donorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5438C651FC682A300C2EE92 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		A5D6D1231FC56E2400FDB477 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		A5D6D1241FC56E2400FDB477 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
 		A5D6D1251FC56E2400FDB477 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
@@ -402,6 +411,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5438C8F1FC682BF00C2EE92 /* libRCTCamera.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -582,6 +592,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A5438C651FC682A300C2EE92 /* RCTCamera.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -632,6 +643,14 @@
 				00E356EE1AD99517003FC87E /* donorTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* donor-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* donor-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A5438C661FC682A300C2EE92 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5438C6F1FC682A400C2EE92 /* libRCTCamera.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -844,6 +863,10 @@
 				{
 					ProductGroup = ADBDB9201DFEBF0600ED6528 /* Products */;
 					ProjectRef = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
+				},
+				{
+					ProductGroup = A5438C661FC682A300C2EE92 /* Products */;
+					ProjectRef = A5438C651FC682A300C2EE92 /* RCTCamera.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -1070,6 +1093,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5438C6F1FC682A400C2EE92 /* libRCTCamera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCamera.a;
+			remoteRef = A5438C6E1FC682A400C2EE92 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A5D6D10D1FC568CF00FDB477 /* libRCTBlob-tvOS.a */ = {
@@ -1566,6 +1596,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = donor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1590,6 +1622,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-places/ios",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = donor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
