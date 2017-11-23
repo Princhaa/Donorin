@@ -4,12 +4,12 @@ import Icon from 'react-native-vector-icons/Entypo'
 import MD from 'react-native-vector-icons/MaterialIcons'
 import Ion from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
-import { logoutController } from '../controllers/AuthController'
+import { deleteToken } from '../controllers/AuthController'
 
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
 
-class Profile extends Component {
+class ProfileComponent extends Component {
 
 	static navigationOptions = {
 		tabBarIcon: ({ focused }) => {
@@ -20,7 +20,7 @@ class Profile extends Component {
 	}
 
 	logout() {
-		logoutController()
+		deleteToken()
 		this.props.screenProps.navigate('Login')
 	}
 
@@ -179,4 +179,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(Profile)
+export default connect(mapStateToProps)(ProfileComponent)

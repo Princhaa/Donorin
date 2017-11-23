@@ -10,9 +10,9 @@ import Modal from 'react-native-modal'
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
-import { editProfileController } from '../controllers/ProfileController'
+import { editProfile } from '../controllers/ProfileController'
 
-class EditProfile extends Component {
+class EditProfileComponent extends Component {
 
 	constructor(props) {
 		super(props)
@@ -20,7 +20,7 @@ class EditProfile extends Component {
 			name: null,
 			phone: null,
 			selectedBlood: 'A',
-			selectedRhesus: 'positive',
+			selectedRhesus: '+',
 			location: null,
 			birthday: null,
 			lastDonor: null,
@@ -58,14 +58,13 @@ class EditProfile extends Component {
 	// })
 	//}
 
-	async submitProfile() {
-		const { name, phone, location, birthday, selectedBlood, lastDonor } = this.state
-		let response = await editProfileController(name, phone, location, birthday, selectedBlood, lastDonor, this.props.token)
+	async updateProfile(dataIdentitas) {
+		let response = await editProfile(dataIdentitas, this.props.token)
 		if (response) {
-			if (this.props.navigation.state.params.from == 'Login') {
+			if (this.props.navigation.state.params) {
 				this.props.navigation.navigate('Main')
 			} else {
-				this.props.navigation.goBack(null)
+				this.props.navigation.goBack()
 			}
 		} else {
 			Alert.alert('Error', 'Response is null')
@@ -142,16 +141,16 @@ class EditProfile extends Component {
 							</View>
 							<Text style={[styles.radioText, {  marginLeft: 30 ,marginVertical: 5, alignSelf: 'flex-start' }]}>Rhesus darah</Text>
 							<View style={{ flexDirection: 'row', marginVertical: 5 }}>
-								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'positive' })}>
-									<Icon name={this.state.selectedRhesus == 'positive' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: '+' })}>
+									<Icon name={this.state.selectedRhesus == '+' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
 									<Text style={styles.radioText}>Positif</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'negative' })}>
-									<Icon name={this.state.selectedRhesus == 'negative' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: '-' })}>
+									<Icon name={this.state.selectedRhesus == '-' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
 									<Text style={styles.radioText}>Negatif</Text>
 								</TouchableOpacity>
 							</View>
-							<CustomButton style={styles.button} onPress={() => this.submitProfile()}>
+							<CustomButton style={styles.button} onPress={() => this.updateProfile(this.state)}>
 								<Text style={styles.buttonText}>Edit</Text>
 							</CustomButton>
 						</View>
@@ -250,4 +249,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(EditProfile)
+export default connect(mapStateToProps)(EditProfileComponent)

@@ -5,12 +5,12 @@ import metrics from '../config/metrics'
 
 import Events from './Events'
 import ScanQR from './ScanQR'
-import Profile from './Profile'
+import ProfileComponent from './ProfileComponent'
 
 const MainScreen = TabNavigator({
 	Events: { screen: Events },
 	ScanQR: { screen: ScanQR },
-	Profile: { screen: Profile }
+	Profile: { screen: ProfileComponent }
 }, {
 	lazy: true,
 	tabBarOptions: {

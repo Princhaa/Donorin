@@ -28,7 +28,7 @@ const register = async (email, password, passwordConfirm) => {
 	})
 }
 
-const editProfile = async (name, phone, location, birthday, blood, lastDonor, token) => {
+const editProfile = async (name, phone, location, birthday, blood, lastDonor, rhesus, token) => {
 	return await fetch(metrics.BASE_URL + '/profile', {
 		method: 'POST',
 		headers: {
@@ -41,13 +41,36 @@ const editProfile = async (name, phone, location, birthday, blood, lastDonor, to
 			alamat: location,
 			tanggal_lahir: birthday,
 			golongan_darah: blood,
-			terakhir_donor: lastDonor
+			terakhir_donor: lastDonor,
+			rhesus: rhesus
 		})
+	})
+}
+
+const post = async (route, params, header) => {
+	return await fetch(metrics.BASE_URL + route, {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json',
+			...header
+		},
+		body: JSON.stringify(params)
+	})
+}
+
+const get = async (route, header) => {
+	return await fetch(metrics.BASE_URL + route, {
+		method: 'GET',
+		headers: {
+			...header
+		}
 	})
 }
 
 module.exports = {
 	login,
 	register,
-	editProfile
+	editProfile,
+	post,
+	get
 }

@@ -2,13 +2,15 @@ import { Alert } from 'react-native'
 
 import { store } from '../../App'
 import { 
-	login,
-	register
+	post
 } from '../service/APIRequest/API'
 import action from '../service/action'
 
-const loginController = async (email, password) => {
-	let response = await login(email, password)
+const login = async (email, password) => {
+	let response = await post('/login', { 
+		email: email,
+		password: password
+	})
 	if (response.ok) {
 		response = await response.json()
 		store.dispatch(action.setUserData(response.user))
@@ -19,11 +21,15 @@ const loginController = async (email, password) => {
 	}
 }
 
-const registerController = async (email, password, passwordConfirm) => {
-	if (password != passwordConfirm) {
+const register = async (dataRegistrasi) => {
+	if (dataRegistrasi.password != dataRegistrasi.passwordConfirm) {
 		Alert.alert('Error', 'Password doesn\'t match')
 	} else {
-		let response = await register(email, password, passwordConfirm)
+		let response = await post('/register', {
+			email: dataRegistrasi.email,
+			password: dataRegistrasi.password,
+			passwordConfirmation: dataRegistrasi.passwordConfirmation,
+		})
 		if (response.ok) {
 			Alert.alert('Berhasil', 'Registrasi berhasil! Silahkan login')
 		} else {
@@ -32,12 +38,12 @@ const registerController = async (email, password, passwordConfirm) => {
 	}
 }
 
-const logoutController = () => {
+const deleteToken = () => {
 	store.dispatch(action.login())
 }
 
 module.exports = {
-	loginController,
-	registerController,
-	logoutController
+	login,
+	register,
+	deleteToken
 }

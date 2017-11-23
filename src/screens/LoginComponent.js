@@ -8,11 +8,11 @@ import { connect } from 'react-redux'
 import CustomTextInput from '../components/CustomTextInput'
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
-import { loginController } from '../controllers/AuthController'
+import { login } from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
 
-class LoginScreen extends Component {
+class LoginComponent extends Component {
 
 	constructor(props) {
 		super(props)
@@ -22,8 +22,8 @@ class LoginScreen extends Component {
 		}
 	}
 
-	async login() {
-		let response = await loginController(this.state.email, this.state.password)
+	async login(email, password) {
+		let response = await login(email, password)
 		if (response.user.tipe == 'admin') {
 			this.props.navigation.navigate('AdminMain')
 		}
@@ -49,7 +49,7 @@ class LoginScreen extends Component {
 					<CustomTextInput style={styles.textInput} placeholder={'Password'} secureTextEntry={true} ref={(ref) => this.passwordRef = ref} returnKeyType={'done'} onChangeText={(value) => this.setState({ password: value })}>
 						<Icon name={'vpn-key'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>
 					</CustomTextInput>
-					<CustomButton style={styles.button} onPress={() => this.login()}>
+					<CustomButton style={styles.button} onPress={() => this.login(this.state.email, this.state.password)}>
 						<Text style={styles.buttonText}>Login</Text>
 					</CustomButton>
 					<View style={styles.divider}/>
@@ -63,11 +63,11 @@ class LoginScreen extends Component {
 	}
 }
 
-LoginScreen.propTypes = {
+LoginComponent.propTypes = {
 	navigation: PropTypes.object.isRequired
 }
 
-LoginScreen.navigationOptions = {
+LoginComponent.navigationOptions = {
 	title: 'Log In'
 }
 
@@ -121,4 +121,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(LoginScreen)
+export default connect(mapStateToProps)(LoginComponent)

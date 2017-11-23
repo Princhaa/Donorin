@@ -2,12 +2,22 @@ import { Alert } from 'react-native'
 
 import { store } from '../../App'
 import {
-	editProfile
+	post
 } from '../service/APIRequest/API'
 import action from '../service/action'
 
-const editProfileController = async (name, phone, location, birthday, selectedBlood, lastDonor, token) => {
-	let response = await editProfile(name, phone, location, birthday, selectedBlood, lastDonor, token)	
+const editProfile = async (dataIdentitas, token) => {
+	let response = await post('/profile', {
+		nama: dataIdentitas.name,
+		telepon: dataIdentitas.phone,
+		alamat: dataIdentitas.location,
+		tanggal_lahir: dataIdentitas.birthday,
+		golongan_darah: dataIdentitas.selectedBlood,
+		terakhir_donor: dataIdentitas.lastDonor,
+		rhesus: dataIdentitas.selectedRhesus
+	}, {
+		'Authorization': 'Bearer '+token
+	})
 	if (response.ok) {
 		response = await response.json()
 		store.dispatch(action.setUserData(response))
@@ -19,5 +29,5 @@ const editProfileController = async (name, phone, location, birthday, selectedBl
 }
 
 module.exports = {
-	editProfileController
+	editProfile
 }

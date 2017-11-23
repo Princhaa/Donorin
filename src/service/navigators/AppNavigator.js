@@ -7,10 +7,10 @@ import ActionCreators from '../action'
 
 import metrics from '../../config/metrics'
 
-import LoginScreen from '../../screens/LoginScreen'
-import RegisterScreen from '../../screens/RegisterScreen'
+import LoginComponent from '../../screens/LoginComponent'
+import RegisterComponent from '../../screens/RegisterComponent'
 import MainScreen from '../../screens/MainScreen'
-import EditProfile from '../../screens/EditProfile'
+import EditProfileComponent from '../../screens/EditProfileComponent'
 import ChangePassword from '../../screens/ChangePassword'
 import RequestBlood from '../../screens/RequestBlood'
 import AdminMain from '../../screens/AdminMain'
@@ -18,10 +18,10 @@ import NewEvent from '../../screens/NewEvent'
 import Scan from '../../screens/Scan'
 
 const App = StackNavigator({
-	Login: { screen: LoginScreen },
-	Register: { screen: RegisterScreen },
+	Login: { screen: LoginComponent },
+	Register: { screen: RegisterComponent },
 	Main: { screen: MainScreen },
-	EditProfile: { screen: EditProfile },
+	EditProfile: { screen: EditProfileComponent },
 	ChangePassword: { screen: ChangePassword },
 	RequestBlood: { screen: RequestBlood },
 	AdminMain: { screen: AdminMain },

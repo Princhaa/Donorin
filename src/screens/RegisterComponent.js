@@ -11,7 +11,7 @@ import { register } from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
 
-class RegisterScreen extends Component {
+class RegisterComponent extends Component {
 
 	constructor(props) {
 		super(props)
@@ -32,6 +32,10 @@ class RegisterScreen extends Component {
 	// 	}
 	// }
 
+	async register(dataRegistrasi) {
+		await register(dataRegistrasi)
+	}
+
 	render() {
 		return (
 			<TouchableWithoutFeedback style={{ flex: 1, backgroundColor: 'white' }} onPress={() => Keyboard.dismiss()}>
@@ -46,7 +50,7 @@ class RegisterScreen extends Component {
 					<CustomTextInput style={styles.textInput} placeholder={'Konfirmasi password'} secureTextEntry={true} ref={(ref) => this.passwordConfRef = ref} returnKeyType={'done'} onChangeText={(value) => this.setState({ passwordConfirm: value })}>
 						<Icon name={'vpn-key'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>					
 					</CustomTextInput>
-					<CustomButton style={styles.button} onPress={() => register()}>
+					<CustomButton style={styles.button} onPress={() => this.register({ email: this.state.email, password: this.state.password, passwordConfirmation: this.state.passwordConfirm })}>
 						<Text style={styles.buttonText}>Register</Text>
 					</CustomButton>
 					<KeyboardSpacer />
@@ -56,11 +60,11 @@ class RegisterScreen extends Component {
 	}
 }
 
-RegisterScreen.propTypes = {
+RegisterComponent.propTypes = {
 	navigation: PropTypes.object.isRequired
 }
 
-RegisterScreen.navigationOptions = {
+RegisterComponent.navigationOptions = {
 	title: 'Register'
 }
 
@@ -108,4 +112,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default RegisterScreen
+export default RegisterComponent
