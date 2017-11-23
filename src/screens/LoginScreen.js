@@ -8,9 +8,7 @@ import { connect } from 'react-redux'
 import CustomTextInput from '../components/CustomTextInput'
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
-import { store } from  '../../App'
-import action from '../service/action'
-import { login } from '../service/APIRequest/API'
+import { loginController } from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
 
@@ -23,24 +21,16 @@ class LoginScreen extends Component {
 			password: ''
 		}
 	}
-	
+
 	async login() {
-		let response = await login(this.state.email, this.state.password)
-		if (response.ok) {
-			response = await response.json()
-			store.dispatch(action.setUserData(response.user))
-			store.dispatch(action.setToken(response.token))
-			if (response.user.tipe == 'admin') {
-				this.props.navigation.navigate('AdminMain')
-			}
-			else if (response.dataLengkap) {
-				this.props.navigation.navigate('Main')
-			} else {
-				this.props.navigation.navigate('EditProfile', { from: 'Login' })
-			}
+		let response = await loginController(this.state.email, this.state.password)
+		if (response.user.tipe == 'admin') {
+			this.props.navigation.navigate('AdminMain')
+		}
+		else if (response.dataLengkap) {
+			this.props.navigation.navigate('Main')
 		} else {
-			console.log(response)
-			Alert.alert('Error', response.status.toString())
+			this.props.navigation.navigate('EditProfile', { from: 'Login' })
 		}
 	}
 

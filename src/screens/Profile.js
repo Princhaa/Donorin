@@ -4,8 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo'
 import MD from 'react-native-vector-icons/MaterialIcons'
 import Ion from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
-import { store } from '../../App'
-import action from '../service/action'
+import { logoutController } from '../controllers/AuthController'
 
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
@@ -21,7 +20,7 @@ class Profile extends Component {
 	}
 
 	logout() {
-		store.dispatch(action.login())
+		logoutController()
 		this.props.screenProps.navigate('Login')
 	}
 
@@ -71,6 +70,11 @@ class Profile extends Component {
 						<View style={styles.divider}/>
 						<TouchableOpacity style={styles.buttons} onPress={() => this.props.screenProps.navigate('ChangePassword')}>
 							<Text style={{ flex: 1, color: 'black' }}>Ubah Password</Text>
+							<Ion name={'ios-arrow-forward'} size={20}/>
+						</TouchableOpacity>
+						<View style={styles.divider}/>						
+						<TouchableOpacity style={styles.buttons} onPress={() => this.props.screenProps.navigate('ChangePassword')}>
+							<Text style={{ flex: 1, color: 'black' }}>Riwayat</Text>
 							<Ion name={'ios-arrow-forward'} size={20}/>
 						</TouchableOpacity>
 						<View style={styles.divider}/>

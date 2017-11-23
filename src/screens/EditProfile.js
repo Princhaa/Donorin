@@ -10,9 +10,7 @@ import Modal from 'react-native-modal'
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
-import { store } from  '../../App'
-import action from '../service/action'
-import { editProfile } from '../service/APIRequest/API'
+import { editProfileController } from '../controllers/ProfileController'
 
 class EditProfile extends Component {
 
@@ -62,17 +60,15 @@ class EditProfile extends Component {
 
 	async submitProfile() {
 		const { name, phone, location, birthday, selectedBlood, lastDonor } = this.state
-		let response = await editProfile(name, phone, location, birthday, selectedBlood, lastDonor, this.props.token)
-		if (response.ok) {
-			response = await response.json()
-			store.dispatch(action.setUserData(response))
+		let response = await editProfileController(name, phone, location, birthday, selectedBlood, lastDonor, this.props.token)
+		if (response) {
 			if (this.props.navigation.state.params.from == 'Login') {
 				this.props.navigation.navigate('Main')
 			} else {
 				this.props.navigation.goBack(null)
 			}
 		} else {
-			Alert.alert('Error', response.status)
+			Alert.alert('Error', 'Response is null')
 		}
 	}
 

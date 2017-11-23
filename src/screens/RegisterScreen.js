@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import CustomTextInput from '../components/CustomTextInput'
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
-import { register } from '../service/APIRequest/API'
+import { register } from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
 
@@ -22,15 +22,15 @@ class RegisterScreen extends Component {
 		}
 	}
 
-	async register() {
-		const { email, password, passwordConfirm } = this.state
-		let response = await register(email, password, passwordConfirm)
-		if (response.ok) {
-			Alert.alert('Berhasil', 'Registrasi berhasil')			
-		} else {
-			Alert.alert('Error', response.status)			
-		}
-	}
+	// async register() {
+	// 	const { email, password, passwordConfirm } = this.state
+	// 	let response = await register(email, password, passwordConfirm)
+	// 	if (response.ok) {
+	// 		Alert.alert('Berhasil', 'Registrasi berhasil')			
+	// 	} else {
+	// 		Alert.alert('Error', response.status)			
+	// 	}
+	// }
 
 	render() {
 		return (
@@ -46,7 +46,7 @@ class RegisterScreen extends Component {
 					<CustomTextInput style={styles.textInput} placeholder={'Konfirmasi password'} secureTextEntry={true} ref={(ref) => this.passwordConfRef = ref} returnKeyType={'done'} onChangeText={(value) => this.setState({ passwordConfirm: value })}>
 						<Icon name={'vpn-key'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>					
 					</CustomTextInput>
-					<CustomButton style={styles.button} onPress={() => this.register()}>
+					<CustomButton style={styles.button} onPress={() => register()}>
 						<Text style={styles.buttonText}>Register</Text>
 					</CustomButton>
 					<KeyboardSpacer />
