@@ -1,22 +1,27 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Keyboard, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard, ScrollView, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
-// import RNGooglePlacePicker from 'react-native-google-place-picker'
 import RNGooglePlaces from 'react-native-google-places'
+import { connect } from 'react-redux'
 
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
+import EventController from '../controllers/EventController'
 
-export default class RequestBlood extends Component {
+class RequestComponent extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
 			selectedBlood: 'A',
-			selectedRhesus: 'positive',
-			location: null
+			selectedRhesus: '+',
+			location: null,
+			name: null,
+			phone: null,
+			hospital: null,
+			latlng: null
 		}
 	}
 
@@ -25,26 +30,26 @@ export default class RequestBlood extends Component {
 	}
 
 	selectPlace() {
-		// RNGooglePlacePicker.show((response) => {
-		// 	if (response.didCancel) {
-		// 		console.log('User cancelled GooglePlacePicker');
-		// 	}
-		// 	else if (response.error) {
-		// 		console.log('GooglePlacePicker Error: ', response.error);
-		// 	}
-		// 	else {
-		// 		this.setState({
-		// 			location: response.address
-		// 		})
-		// 	}
-		// })
 		RNGooglePlaces.openPlacePickerModal()
 			.then((place) => {
-				this.setState({ location: place.address })
-				// place represents user's selection from the
-				// suggestions and it is a simplified Google Place object.
+				this.setState({ location: place.address, latlng: place })
 			})
 			.catch(error => console.log(error.message))
+	}
+
+	async requestBlood() {
+		let response = await EventController.requestBlood(this.state, this.state.latlng.latitude, this.state.latlng.longitude, this.props.token)
+		if (response.ok) {
+			Alert.alert('Pemberitahuan', 'Permintaan anda sedang diproses', [
+				{
+					text: 'OK',
+					onPress:() => this.props.navigation.goBack(null)
+				}
+			])
+		} else {
+			console.log(response)
+			Alert.alert('Pemberitahuan', 'Cek koneksi anda')
+		}
 	}
 
 	render() {
@@ -53,13 +58,13 @@ export default class RequestBlood extends Component {
 				<ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
 					<View style={styles.container}>
 						<View style={styles.center}>
-							<CustomTextInput style={styles.textInput} placeholder={'Nama Pasien'} ref={(ref) => this.nameRef = ref} onSubmitEditing={() => this.phoneRef.focus()} returnKeyType={'next'}>
+							<CustomTextInput style={styles.textInput} placeholder={'Nama Pasien'} onChangeText={(value) => this.setState({ name: value })} ref={(ref) => this.nameRef = ref} onSubmitEditing={() => this.phoneRef.focus()} returnKeyType={'next'}>
 								<Icon name={'person'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 							</CustomTextInput>
-							<CustomTextInput style={styles.textInput} placeholder={'Nomor Telepon'} keyboardType={'numeric'} ref={(ref) => this.phoneRef = ref} onSubmitEditing={() => this.hospitalRef.focus()} returnKeyType={'next'}>
+							<CustomTextInput style={styles.textInput} placeholder={'Nomor Telepon'} onChangeText={(value) => this.setState({ phone: value })} keyboardType={'numeric'} ref={(ref) => this.phoneRef = ref} onSubmitEditing={() => this.hospitalRef.focus()} returnKeyType={'next'}>
 								<Icon name={'local-phone'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 							</CustomTextInput>
-							<CustomTextInput style={styles.textInput} placeholder={'Nama Rumah Sakit'} ref={(ref) => this.hospitalRef = ref} onSubmitEditing={() => this.placeRef.focus()} returnKeyType={'next'}>
+							<CustomTextInput style={styles.textInput} placeholder={'Nama Rumah Sakit'} onChangeText={(value) => this.setState({ hospital: value })} ref={(ref) => this.hospitalRef = ref} onSubmitEditing={() => this.placeRef.focus()} returnKeyType={'next'}>
 								<MCI name={'needle'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 							</CustomTextInput>
 							<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()} ref={(ref) => this.placeRef = ref}>
@@ -86,16 +91,16 @@ export default class RequestBlood extends Component {
 							</View>
 							<Text style={[styles.radioText, {  marginLeft: 30 ,marginVertical: 5, alignSelf: 'flex-start' }]}>Rhesus darah</Text>
 							<View style={{ flexDirection: 'row', marginVertical: 5 }}>
-								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'positive' })}>
-									<Icon name={this.state.selectedRhesus == 'positive' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: '+' })}>
+									<Icon name={this.state.selectedRhesus == '+' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
 									<Text style={styles.radioText}>Positif</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: 'negative' })}>
-									<Icon name={this.state.selectedRhesus == 'negative' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
+								<TouchableOpacity style={styles.radioItem} onPress={() => this.setState({ selectedRhesus: '-' })}>
+									<Icon name={this.state.selectedRhesus == '-' ? 'radio-button-checked' : 'radio-button-unchecked'} color={metrics.COLOR_PRIMARY} size={20}/>
 									<Text style={styles.radioText}>Negatif</Text>
 								</TouchableOpacity>
 							</View>
-							<CustomButton style={styles.button} onPress={() => this.props.navigation.goBack(null)}>
+							<CustomButton style={styles.button} onPress={() => this.requestBlood()}>
 								<Text style={styles.buttonText}>Request</Text>
 							</CustomButton>
 						</View>
@@ -150,3 +155,11 @@ const styles = StyleSheet.create({
 		color: 'black'
 	}
 })
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.auth.token
+	}
+}
+
+export default connect(mapStateToProps)(RequestComponent)

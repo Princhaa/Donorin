@@ -33,7 +33,6 @@ class EventListComponent extends Component {
 		let places = await RNGooglePlaces.getCurrentPlace()
 		let { latitude, longitude } = await places[0]
 		let events = await EventController.getEvents(latitude, longitude, this.props.token)
-		console.log(moment(events[0].waktu).format('HH:MM'))
 		this.setState({ events: events, isDataLoaded: true })
 	}
 
@@ -66,7 +65,7 @@ class EventListComponent extends Component {
 		return(
 			<View style={styles.container}>
 				<Image source={require('../../assets/header.jpg')} style={styles.header}/>
-				<FloatingButton style={styles.floatingButton} onPress={() => this.props.screenProps.navigate('RequestBlood')} />
+				<FloatingButton style={styles.floatingButton} onPress={() => this.props.screenProps.navigate('RequestComponent')} />
 				<View style={styles.content}>
 					{this.renderList()}
 				</View>

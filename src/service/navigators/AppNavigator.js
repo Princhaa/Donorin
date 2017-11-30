@@ -12,7 +12,7 @@ import RegisterComponent from '../../screens/RegisterComponent'
 import MainScreen from '../../screens/MainScreen'
 import EditProfileComponent from '../../screens/EditProfileComponent'
 import ChangePassword from '../../screens/ChangePassword'
-import RequestBlood from '../../screens/RequestBlood'
+import RequestComponent from '../../screens/RequestComponent'
 import AdminMain from '../../screens/AdminMain'
 import AddEventComponent from '../../screens/AddEventComponent'
 import Scan from '../../screens/Scan'
@@ -23,7 +23,7 @@ const App = StackNavigator({
 	Main: { screen: MainScreen },
 	EditProfile: { screen: EditProfileComponent },
 	ChangePassword: { screen: ChangePassword },
-	RequestBlood: { screen: RequestBlood },
+	RequestComponent: { screen: RequestComponent },
 	AdminMain: { screen: AdminMain },
 	AddEvent: { screen: AddEventComponent },
 	Scan: { screen: Scan }
