@@ -8,7 +8,7 @@ import ScanQR from './ScanQR'
 import ProfileComponent from './ProfileComponent'
 
 const MainScreen = TabNavigator({
-	EventListComponent: { screen: EventListComponent },
+	Events: { screen: EventListComponent },
 	ScanQR: { screen: ScanQR },
 	Profile: { screen: ProfileComponent }
 }, {

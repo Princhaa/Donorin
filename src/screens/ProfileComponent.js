@@ -73,7 +73,7 @@ class ProfileComponent extends Component {
 							<Ion name={'ios-arrow-forward'} size={20}/>
 						</TouchableOpacity>
 						<View style={styles.divider}/>						
-						<TouchableOpacity style={styles.buttons} onPress={() => this.props.screenProps.navigate('ChangePassword')}>
+						<TouchableOpacity style={styles.buttons} onPress={() => this.props.screenProps.navigate('HistoryComponent')}>
 							<Text style={{ flex: 1, color: 'black' }}>Riwayat</Text>
 							<Ion name={'ios-arrow-forward'} size={20}/>
 						</TouchableOpacity>

@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
-import EventController from '../controllers/EventController'
+import RequestController from '../controllers/RequestController'
 
 class RequestComponent extends Component {
 
@@ -38,7 +38,7 @@ class RequestComponent extends Component {
 	}
 
 	async requestBlood() {
-		let response = await EventController.requestBlood(this.state, this.state.latlng.latitude, this.state.latlng.longitude, this.props.token)
+		let response = await RequestController.requestBlood(this.state, this.state.latlng.latitude, this.state.latlng.longitude, this.props.token)
 		if (response.ok) {
 			Alert.alert('Pemberitahuan', 'Permintaan anda sedang diproses', [
 				{
@@ -47,7 +47,6 @@ class RequestComponent extends Component {
 				}
 			])
 		} else {
-			console.log(response)
 			Alert.alert('Pemberitahuan', 'Cek koneksi anda')
 		}
 	}
