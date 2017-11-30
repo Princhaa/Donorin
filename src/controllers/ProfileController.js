@@ -6,28 +6,28 @@ import {
 } from '../service/APIRequest/API'
 import action from '../service/action'
 
-const editProfile = async (dataIdentitas, token) => {
-	let response = await post('/profile', {
-		nama: dataIdentitas.name,
-		telepon: dataIdentitas.phone,
-		alamat: dataIdentitas.location,
-		tanggal_lahir: dataIdentitas.birthday,
-		golongan_darah: dataIdentitas.selectedBlood,
-		terakhir_donor: dataIdentitas.lastDonor,
-		rhesus: dataIdentitas.selectedRhesus
-	}, {
-		'Authorization': 'Bearer '+token
-	})
-	if (response.ok) {
-		response = await response.json()
-		store.dispatch(action.setUserData(response))
-		return response
-	} else {
-		Alert.alert('Error', response.status.toString())
-		return null
+class ProfileController {
+	editProfile = async (dataIdentitas, token) => {
+		let response = await post('/profile', {
+			nama: dataIdentitas.name,
+			telepon: dataIdentitas.phone,
+			alamat: dataIdentitas.location,
+			tanggal_lahir: dataIdentitas.birthday,
+			golongan_darah: dataIdentitas.selectedBlood,
+			terakhir_donor: dataIdentitas.lastDonor,
+			rhesus: dataIdentitas.selectedRhesus
+		}, {
+			'Authorization': 'Bearer '+token
+		})
+		if (response.ok) {
+			response = await response.json()
+			store.dispatch(action.setUserData(response))
+			return response
+		} else {
+			Alert.alert('Error', response.status.toString())
+			return null
+		}
 	}
 }
 
-module.exports = {
-	editProfile
-}
+export default new ProfileController()

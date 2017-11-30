@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo'
 import MD from 'react-native-vector-icons/MaterialIcons'
 import Ion from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
-import { deleteToken } from '../controllers/AuthController'
+import AuthController from '../controllers/AuthController'
 
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
@@ -20,7 +20,7 @@ class ProfileComponent extends Component {
 	}
 
 	logout() {
-		deleteToken()
+		AuthController.deleteToken()
 		this.props.screenProps.navigate('Login')
 	}
 

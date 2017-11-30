@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import CustomTextInput from '../components/CustomTextInput'
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
-import { login } from '../controllers/AuthController'
+import AuthController from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
 
@@ -23,7 +23,7 @@ class LoginComponent extends Component {
 	}
 
 	async login(email, password) {
-		let response = await login(email, password)
+		let response = await AuthController.login(email, password)
 		if (response.user.tipe == 'admin') {
 			this.props.navigation.navigate('AdminMain')
 		}

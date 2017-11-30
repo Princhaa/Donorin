@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
-import { addEvent } from '../controllers/EventController'
+import EventController from '../controllers/EventController'
 
 class AddEventComponent extends Component {
 
@@ -45,7 +45,7 @@ class AddEventComponent extends Component {
 	}
 
 	async addEvent() {
-		let response = await addEvent({
+		let response = await EventController.addEvent({
 			nama: this.state.name,
 			alamat: this.state.address,
 			waktu: this.state.selectedTime,

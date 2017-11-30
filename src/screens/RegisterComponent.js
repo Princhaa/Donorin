@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import CustomTextInput from '../components/CustomTextInput'
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
-import { register } from '../controllers/AuthController'
+import AuthController from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
 
@@ -22,18 +22,8 @@ class RegisterComponent extends Component {
 		}
 	}
 
-	// async register() {
-	// 	const { email, password, passwordConfirm } = this.state
-	// 	let response = await register(email, password, passwordConfirm)
-	// 	if (response.ok) {
-	// 		Alert.alert('Berhasil', 'Registrasi berhasil')			
-	// 	} else {
-	// 		Alert.alert('Error', response.status)			
-	// 	}
-	// }
-
 	async register(dataRegistrasi) {
-		await register(dataRegistrasi)
+		await AuthController.register(dataRegistrasi)
 	}
 
 	render() {
