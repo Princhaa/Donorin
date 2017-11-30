@@ -40,7 +40,7 @@ class RegisterComponent extends Component {
 					<CustomTextInput style={styles.textInput} placeholder={'Konfirmasi password'} secureTextEntry={true} ref={(ref) => this.passwordConfRef = ref} returnKeyType={'done'} onChangeText={(value) => this.setState({ passwordConfirm: value })}>
 						<Icon name={'vpn-key'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>					
 					</CustomTextInput>
-					<CustomButton style={styles.button} onPress={() => this.register({ email: this.state.email, password: this.state.password, passwordConfirmation: this.state.passwordConfirm })}>
+					<CustomButton style={styles.button} onPress={() => this.register({ email: this.state.email, password: this.state.password, passwordConfirm: this.state.passwordConfirm })}>
 						<Text style={styles.buttonText}>Register</Text>
 					</CustomButton>
 					<KeyboardSpacer />

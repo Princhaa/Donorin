@@ -23,13 +23,14 @@ class AuthController {
 	}
 	
 	register = async (dataRegistrasi) => {
+		console.log(dataRegistrasi)
 		if (dataRegistrasi.password != dataRegistrasi.passwordConfirm) {
 			Alert.alert('Error', 'Password doesn\'t match')
 		} else {
 			let response = await post('/register', {
 				email: dataRegistrasi.email,
 				password: dataRegistrasi.password,
-				passwordConfirmation: dataRegistrasi.passwordConfirmation,
+				passwordConfirmation: dataRegistrasi.passwordConfirm,
 			})
 			if (response.ok) {
 				Alert.alert('Berhasil', 'Registrasi berhasil! Silahkan login')

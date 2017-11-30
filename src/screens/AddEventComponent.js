@@ -52,7 +52,12 @@ class AddEventComponent extends Component {
 			lokasi: this.state.coordinate
 		})
 		if (response.ok) {
-			Alert.alert('Pemberitahuan', 'Event berhasil dibuat')
+			Alert.alert('Pemberitahuan', 'Event berhasil dibuat', [
+				{
+					text: 'OK',
+					onPress: () => this.props.navigation.goBack(null)
+				}
+			])
 		} else {
 			Alert.alert('Pemberitahuan', 'Terjadi error')
 			console.log(response)
@@ -121,7 +126,7 @@ class AddEventComponent extends Component {
 						<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()}>
 							<Icon name={'place'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 						</CustomTextInput>
-						<CustomButton style={styles.button} onPress={() => this.props.navigation.goBack(null)}>
+						<CustomButton style={styles.button} onPress={() => this.addEvent()}>
 							<Text style={styles.buttonText}>Submit</Text>
 						</CustomButton>
 					</View>
