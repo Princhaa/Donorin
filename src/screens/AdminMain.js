@@ -1,15 +1,53 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList } from 'react-native'
+import { View, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native'
+import RNGooglePlaces from 'react-native-google-places'
+import moment from 'moment'
+import { connect } from 'react-redux'
 
 import FloatingButton from '../components/FloatingButton'
 import EventItem from '../components/EventItemAdmin'
 import metrics from '../config/metrics'
+import EventController from '../controllers/EventController'
 
-export default class AdminMain extends Component {
+class AdminMain extends Component {
 
 	static navigationOptions = {
 		title: 'Donorin',
-		headerLeft: null
+		headerLeft: null,
+		isDataLoaded: false,
+		events: null
+	}
+
+	async componentDidMount() {
+		let places = await RNGooglePlaces.getCurrentPlace()
+		let { latitude, longitude } = await places[0]
+		let events = await EventController.getEvents(latitude, longitude, this.props.token)
+		this.setState({ events: events, isDataLoaded: true })
+	}
+
+	renderList() {
+		if (this.state.isDataLoaded) {
+			return(
+				<FlatList 
+					data={this.state.events}
+					renderItem={({ item }) => {
+						return (
+							<EventItem 
+								date={moment(item.waktu).format('DD MMM')}
+								place={item.nama}
+								address={item.alamat}
+								time={moment(item.waktu).format('HH:MM')}
+							/>
+						)
+					}}
+					keyExtractor={(item) => item.id}					
+				/>
+			)
+		} else {
+			return (
+				<ActivityIndicator />
+			)
+		}
 	}
 
 	render() {
@@ -18,19 +56,7 @@ export default class AdminMain extends Component {
 				<Image source={require('../../assets/header.jpg')} style={styles.header}/>
 				<FloatingButton style={styles.floatingButton} onPress={() => this.props.navigation.navigate('AddEvent')} />
 				<View style={styles.content}>
-					<FlatList 
-						data={metrics.DUMMY_EVENT_DATA}
-						renderItem={({ item }) => {
-							return (
-								<EventItem 
-									date={item.date}
-									place={item.place}
-									address={item.address}
-									time={item.time}
-								/>
-							)
-						}}
-					/>
+					{this.renderList()}
 				</View>
 			</View>
 		)
@@ -86,3 +112,11 @@ const styles = StyleSheet.create({
 		shadowOpacity: 1,
 	}
 })
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.auth.token
+	}
+}
+
+export default connect(mapStateToProps)(AdminMain)
