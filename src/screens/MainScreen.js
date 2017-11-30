@@ -3,12 +3,12 @@ import { TabNavigator, TabBarBottom } from 'react-navigation'
 
 import metrics from '../config/metrics'
 
-import Events from './Events'
+import EventListComponent from './EventListComponent'
 import ScanQR from './ScanQR'
 import ProfileComponent from './ProfileComponent'
 
 const MainScreen = TabNavigator({
-	Events: { screen: Events },
+	EventListComponent: { screen: EventListComponent },
 	ScanQR: { screen: ScanQR },
 	Profile: { screen: ProfileComponent }
 }, {

@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList } from 'react-native'
+import { View, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import RNGooglePlaces from 'react-native-google-places'
+import { connect } from 'react-redux'
+import moment from 'moment'
 
 import FloatingButton from '../components/FloatingButton'
 import EventItem from '../components/EventItem'
 import metrics from '../config/metrics'
+import EventController from '../controllers/EventController'
 
-export default class Events extends Component {
+class EventListComponent extends Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			events: null,
+			isDataLoaded: false
+		}
+	}
 
 	static navigationOptions = {
 		tabBarIcon: ({ focused }) => {
@@ -17,25 +29,46 @@ export default class Events extends Component {
 		
 	}
 
+	async componentDidMount() {
+		let places = await RNGooglePlaces.getCurrentPlace()
+		let { latitude, longitude } = await places[0]
+		let events = await EventController.getEvents(latitude, longitude, this.props.token)
+		console.log(moment(events[0].waktu).format('HH:MM'))
+		this.setState({ events: events, isDataLoaded: true })
+	}
+
+	renderList() {
+		if (this.state.isDataLoaded) {
+			return(
+				<FlatList 
+					data={this.state.events}
+					renderItem={({ item }) => {
+						return (
+							<EventItem 
+								date={moment(item.waktu).format('DD MMM')}
+								place={item.nama}
+								address={item.alamat}
+								time={moment(item.waktu).format('HH:MM')}
+							/>
+						)
+					}}
+					keyExtractor={(item) => item.id}
+				/>
+			)
+		} else {
+			return (
+				<ActivityIndicator />
+			)
+		}
+	}
+
 	render() {
 		return(
 			<View style={styles.container}>
 				<Image source={require('../../assets/header.jpg')} style={styles.header}/>
 				<FloatingButton style={styles.floatingButton} onPress={() => this.props.screenProps.navigate('RequestBlood')} />
 				<View style={styles.content}>
-					<FlatList 
-						data={metrics.DUMMY_EVENT_DATA}
-						renderItem={({ item }) => {
-							return (
-								<EventItem 
-									date={item.date}
-									place={item.place}
-									address={item.address}
-									time={item.time}
-								/>
-							)
-						}}
-					/>
+					{this.renderList()}
 				</View>
 			</View>
 		)
@@ -85,3 +118,11 @@ const styles = StyleSheet.create({
 		zIndex: 2
 	}
 })
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.auth.token
+	}
+}
+
+export default connect(mapStateToProps)(EventListComponent)
