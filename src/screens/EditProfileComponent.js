@@ -38,25 +38,9 @@ class EditProfileComponent extends Component {
 		RNGooglePlaces.openPlacePickerModal()
 			.then((place) => {
 				this.setState({ location: place.address })
-				// place represents user's selection from the
-				// suggestions and it is a simplified Google Place object.
 			})
 			.catch(error => console.log(error.message))  // error is a Javascript Error object
 	}
-	// RNGooglePlacePicker.show((response) => {
-	// 	if (response.didCancel) {
-	// 		console.log('User cancelled GooglePlacePicker')
-	// 	}
-	// 	else if (response.error) {
-	// 		console.log('GooglePlacePicker Error: ', response.error)
-	// 	}
-	// 	else {
-	// 		this.setState({
-	// 			location: response.address
-	// 		})
-	// 	}
-	// })
-	//}
 
 	async updateProfile(dataIdentitas) {
 		let response = await editProfile(dataIdentitas, this.props.token)

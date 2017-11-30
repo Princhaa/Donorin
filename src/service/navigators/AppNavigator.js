@@ -14,7 +14,7 @@ import EditProfileComponent from '../../screens/EditProfileComponent'
 import ChangePassword from '../../screens/ChangePassword'
 import RequestBlood from '../../screens/RequestBlood'
 import AdminMain from '../../screens/AdminMain'
-import NewEvent from '../../screens/NewEvent'
+import AddEventComponent from '../../screens/AddEventComponent'
 import Scan from '../../screens/Scan'
 
 const App = StackNavigator({
@@ -25,7 +25,7 @@ const App = StackNavigator({
 	ChangePassword: { screen: ChangePassword },
 	RequestBlood: { screen: RequestBlood },
 	AdminMain: { screen: AdminMain },
-	NewEvent: { screen: NewEvent },
+	AddEvent: { screen: AddEventComponent },
 	Scan: { screen: Scan }
 }, {
 	initialRouteName: 'Login',

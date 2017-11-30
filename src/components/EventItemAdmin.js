@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'white',
 		elevation: 6.5,
-		flex: 1,
-		height: 100,
+		height: 130,
 		marginVertical: 10,
 		marginHorizontal: 20,
 		padding: 10,
+		paddingVertical: 20,
 		shadowColor: 'rgba(184, 184, 184, 0.5)',
 		shadowOffset: {
 			width: 0,

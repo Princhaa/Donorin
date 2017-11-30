@@ -16,7 +16,7 @@ export default class AdminMain extends Component {
 		return(
 			<View style={styles.container}>
 				<Image source={require('../../assets/header.jpg')} style={styles.header}/>
-				<FloatingButton style={styles.floatingButton} onPress={() => this.props.navigation.navigate('NewEvent')} />
+				<FloatingButton style={styles.floatingButton} onPress={() => this.props.navigation.navigate('AddEvent')} />
 				<View style={styles.content}>
 					<FlatList 
 						data={metrics.DUMMY_EVENT_DATA}

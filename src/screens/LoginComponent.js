@@ -43,7 +43,7 @@ class LoginComponent extends Component {
 						barStyle={'light-content'}
 					/>
 					<Image source={logo} style={{ marginVertical: 10 }}/>
-					<CustomTextInput style={styles.textInput} placeholder={'Email'} keyboardType={'email-address'} ref={(ref) => this.emailRef = ref} onSubmitEditing={() => this.passwordRef.focus()} returnKeyType={'next'} onChangeText={(value) => this.setState({ email: value })}>
+					<CustomTextInput style={styles.textInput} placeholder={'Email'} keyboardType={'email-address'} ref={(ref) => this.emailRef = ref} onSubmitEditing={() => this.passwordRef.focus()} returnKeyType={'next'} onChangeText={(value) => this.setState({ email: value })} autoCapitalize={'none'}>
 						<Icon name={'email'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>
 					</CustomTextInput>
 					<CustomTextInput style={styles.textInput} placeholder={'Password'} secureTextEntry={true} ref={(ref) => this.passwordRef = ref} returnKeyType={'done'} onChangeText={(value) => this.setState({ password: value })}>

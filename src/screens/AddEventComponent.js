@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button, DatePickerAndroid, Keyboard, DatePickerIOS, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, StyleSheet, Button, DatePickerAndroid, Keyboard, DatePickerIOS, TouchableWithoutFeedback, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
-// import RNGooglePlacePicker from 'react-native-google-place-picker'
 import RNGooglePlaces from 'react-native-google-places'
 import Modal from 'react-native-modal'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
+import moment from 'moment'
+import { connect } from 'react-redux'
 
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
+import { addEvent } from '../controllers/EventController'
 
-export default class NewEvent extends Component {
+class AddEventComponent extends Component {
 
 	constructor(props) {
 		super(props)
@@ -20,8 +22,13 @@ export default class NewEvent extends Component {
 			selectedRhesus: 'positive',
 			location: null,
 			date: null,
+			time: null,
 			datepick: new Date(),
-			visibleModal: false		
+			visibleModal: false,
+			dateType: 'date',
+			selectedTime: null,
+			name: null,
+			coordinate: null
 		}
 	}
 
@@ -29,65 +36,86 @@ export default class NewEvent extends Component {
 		title: 'New Event'
 	}
 
-	async openDate() {
+	normalizeDate(value) {
+		if (value < 10) {
+			return '0'+value
+		} else {
+			return value
+		}
+	}
+
+	async addEvent() {
+		let response = await addEvent({
+			nama: this.state.name,
+			alamat: this.state.address,
+			waktu: this.state.selectedTime,
+			lokasi: this.state.coordinate
+		})
+		if (response.ok) {
+			Alert.alert('Pemberitahuan', 'Event berhasil dibuat')
+		} else {
+			Alert.alert('Pemberitahuan', 'Terjadi error')
+			console.log(response)
+		}
+	}
+
+	async openDate(type) {
 		Keyboard.dismiss()
 		if (metrics.OS == 'android') {
 			try {
 				let {action, year, month, day} = await DatePickerAndroid.open({
-					// Use `new Date()` for current date.
-					// May 25 2020. Month 0 is January.
 					date: new Date()
 				})
 				if (action !== DatePickerAndroid.dismissedAction) {
-					// Selected year, month (0-11), day
-					if (day < 10) {
-						day = '0'+day
-					}
+					month = this.normalizeDate(month)
+					day = this.normalizeDate(day)
 					this.setState({ date: year + '-' + (month+1) + '-' + day })				
 				}
 			} catch ({code, message}) {
 				console.warn('Cannot open date picker', message)
 			}
 		} else {
-			this.setState({ visibleModal: true })
+			this.setState({ visibleModal: true, dateType: type })
+			let date = new Date()
+			let day = this.normalizeDate(date.getDate())
+			let month = this.normalizeDate(date.getMonth())
+			let hour = this.normalizeDate(date.getHours())
+			let minute = this.normalizeDate(date.getMinutes())
+			
+			if (type == 'date') {
+				this.setState({ date: date.getFullYear() + '-' + (month+1) + '-' + day })
+			} else {
+				this.setState({ time: hour + ':' + minute })
+				this.formatDate()	
+			}
 		}
 	}
 
 	selectPlace() {
-		// RNGooglePlacePicker.show((response) => {
-		// 	if (response.didCancel) {
-		// 		console.log('User cancelled GooglePlacePicker');
-		// 	}
-		// 	else if (response.error) {
-		// 		console.log('GooglePlacePicker Error: ', response.error);
-		// 	}
-		// 	else {
-		// 		this.setState({
-		// 			location: response.address
-		// 		})
-		// 	}
-		// })
 		RNGooglePlaces.openPlacePickerModal()
 			.then((place) => {
-				this.setState({ location: place.address })
-				// place represents user's selection from the
-				// suggestions and it is a simplified Google Place object.
+				this.setState({ location: place.address, coordinate: place.latitude+','+place.longitude })
 			})
-			.catch(error => console.log(error.message))  // error is a Javascript Error object
+			.catch(error => console.log(error.message))
 	}
+
+	formatDate() {
+		let formattedDate = moment(this.state.date+' '+this.state.time, 'YYYY-MM-DD HH:MM')
+		this.setState({ selectedTime: formattedDate })
+	} 
 
 	render() {
 		return(
 			<TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
 				<View style={styles.container}>
 					<View style={styles.center}>
-						<CustomTextInput style={styles.textInput} placeholder={'Nama Event'}>
+						<CustomTextInput style={styles.textInput} placeholder={'Nama Event'} onChangeText={(value) => this.setState({ name: value })}>
 							<MCI name={'rename-box'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 						</CustomTextInput>
-						<CustomTextInput style={styles.textInput} placeholder={'Tanggal Event'} value={this.state.date} onFocus={() => this.openDate()}>
+						<CustomTextInput style={styles.textInput} placeholder={'Tanggal Event'} value={this.state.date} onFocus={() => this.openDate('date')}>
 							<MCI name={'calendar'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 						</CustomTextInput>
-						<CustomTextInput style={styles.textInput} placeholder={'Waktu Event'}>
+						<CustomTextInput style={styles.textInput} placeholder={'Waktu Event'} value={this.state.time} onFocus={() => this.openDate('time')}>
 							<Icon name={'access-time'} size={20} style={{ margin: 5, alignSelf: 'center' }}/>
 						</CustomTextInput>
 						<CustomTextInput style={styles.textInput} placeholder={'Alamat'} value={this.state.location} onFocus={() => this.selectPlace()}>
@@ -101,7 +129,7 @@ export default class NewEvent extends Component {
 						<View style={styles.modalContent}>
 							<DatePickerIOS 
 								date={this.state.datepick}
-								mode={'date'}
+								mode={this.state.dateType}
 								onDateChange={(date) => {
 									this.setState({ datepick: date })
 									let day = date.getDate()
@@ -181,3 +209,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	}
 })
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.auth.token
+	}
+}
+
+export default connect(mapStateToProps)(AddEventComponent)
