@@ -16,6 +16,8 @@ target 'donor' do
     # Pods for testing
     pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+    pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   end
 
   target 'donorTests' do

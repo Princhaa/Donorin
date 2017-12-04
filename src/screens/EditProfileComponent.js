@@ -10,7 +10,7 @@ import Modal from 'react-native-modal'
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
-import { editProfile } from '../controllers/ProfileController'
+import ProfileController from '../controllers/ProfileController'
 
 class EditProfileComponent extends Component {
 
@@ -43,7 +43,7 @@ class EditProfileComponent extends Component {
 	}
 
 	async updateProfile(dataIdentitas) {
-		let response = await editProfile(dataIdentitas, this.props.token)
+		let response = await ProfileController.editProfile(dataIdentitas, this.props.token)
 		if (response) {
 			if (this.props.navigation.state.params) {
 				this.props.navigation.navigate('Main')

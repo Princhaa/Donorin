@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
+import firebase from 'react-native-firebase'
 
 import AppReducer from './src/service/reducers'
 import AppWithNavigationState from './src/service/navigators/AppNavigator'
@@ -21,7 +22,12 @@ function configureStores(initialState) {
 export const store = configureStores({})
 
 class DonorinApp extends Component {
-	
+
+	componentDidMount() {
+		firebase.messaging().getInitialNotification().then((params) => {
+			console.log(params)
+		})
+	}
 
 	render() {
 		return (

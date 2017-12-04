@@ -1,4 +1,5 @@
 import { Alert } from 'react-native'
+import firebase from 'react-native-firebase'
 
 import { store } from '../../App'
 import { 
@@ -10,7 +11,8 @@ class AuthController {
 	login = async (email, password) => {
 		let response = await post('/login', { 
 			email: email,
-			password: password
+			password: password,
+			fcm_token: firebase.messaging().getToken()
 		})
 		if (response.ok) {
 			response = await response.json()
