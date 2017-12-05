@@ -81,6 +81,9 @@ class ProfileComponent extends Component {
 						<CustomButton style={styles.button} onPress={() => this.logout()}>
 							<Text style={styles.buttonText}>Logout</Text>
 						</CustomButton>
+						<CustomButton style={styles.button} onPress={() => this.props.screenProps.navigate('DetailComponent')}>
+							<Text style={styles.buttonText}>Trigger notification</Text>
+						</CustomButton>
 					</View>
 				</View>
 			</ScrollView>

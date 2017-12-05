@@ -17,6 +17,7 @@ import AdminMain from '../../screens/AdminMain'
 import AddEventComponent from '../../screens/AddEventComponent'
 import Scan from '../../screens/Scan'
 import HistoryComponent from '../../screens/HistoryComponent'
+import DetailComponent from '../../screens/DetailComponent'
 
 const App = StackNavigator({
 	Login: { screen: LoginComponent },
@@ -28,7 +29,8 @@ const App = StackNavigator({
 	AdminMain: { screen: AdminMain },
 	AddEvent: { screen: AddEventComponent },
 	Scan: { screen: Scan },
-	HistoryComponent: { screen: HistoryComponent }
+	HistoryComponent: { screen: HistoryComponent },
+	DetailComponent: { screen: DetailComponent }
 }, {
 	initialRouteName: 'Login',
 	navigationOptions: {
