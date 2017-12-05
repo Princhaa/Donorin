@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Image, Text, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
+import { View, StyleSheet, Image, Text, TouchableWithoutFeedback, Keyboard, Alert, ActivityIndicator } from 'react-native'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -18,12 +18,29 @@ class RegisterComponent extends Component {
 		this.state = {
 			email: '',
 			password: '',
-			passwordConfirm: ''
+			passwordConfirm: '',
+			isRegistering: false
 		}
 	}
 
 	async register(dataRegistrasi) {
-		await AuthController.register(dataRegistrasi)
+		this.setState({ isRegistering: true })
+		let response = await AuthController.register(dataRegistrasi)
+		if (!response) {
+			this.setState({ isRegistering: false })
+		}
+	}
+
+	renderRegisterText() {
+		if (!this.state.isRegistering) {
+			return (
+				<Text style={styles.buttonText}>Register</Text>
+			)
+		} else {
+			return (
+				<ActivityIndicator color={'white'}/>
+			)
+		}
 	}
 
 	render() {
@@ -41,7 +58,7 @@ class RegisterComponent extends Component {
 						<Icon name={'vpn-key'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>					
 					</CustomTextInput>
 					<CustomButton style={styles.button} onPress={() => this.register({ email: this.state.email, password: this.state.password, passwordConfirm: this.state.passwordConfirm })}>
-						<Text style={styles.buttonText}>Register</Text>
+						{this.renderRegisterText()}
 					</CustomButton>
 					<KeyboardSpacer />
 				</View>

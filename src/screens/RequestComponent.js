@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Keyboard, ScrollView, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard, ScrollView, Alert, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 import RNGooglePlaces from 'react-native-google-places'
@@ -21,7 +21,8 @@ class RequestComponent extends Component {
 			name: null,
 			phone: null,
 			hospital: null,
-			latlng: null
+			latlng: null,
+			isRequesting: false
 		}
 	}
 
@@ -38,6 +39,7 @@ class RequestComponent extends Component {
 	}
 
 	async requestBlood() {
+		this.setState({ isRequesting: true })
 		let response = await RequestController.requestBlood(this.state, this.state.latlng.latitude, this.state.latlng.longitude, this.props.token)
 		if (response.ok) {
 			Alert.alert('Pemberitahuan', 'Permintaan anda sedang diproses', [
@@ -47,7 +49,20 @@ class RequestComponent extends Component {
 				}
 			])
 		} else {
+			this.setState({ isRequesting: false })
 			Alert.alert('Pemberitahuan', 'Cek koneksi anda')
+		}
+	}
+
+	renderRequestText() {
+		if (!this.state.isRequesting) {
+			return (
+				<Text style={styles.buttonText}>Request</Text>
+			)
+		} else {
+			return (
+				<ActivityIndicator color={'white'}/>
+			)
 		}
 	}
 
@@ -100,7 +115,7 @@ class RequestComponent extends Component {
 								</TouchableOpacity>
 							</View>
 							<CustomButton style={styles.button} onPress={() => this.requestBlood()}>
-								<Text style={styles.buttonText}>Request</Text>
+								{this.renderRequestText()}
 							</CustomButton>
 						</View>
 					</View>

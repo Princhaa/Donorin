@@ -21,6 +21,7 @@ class AuthController {
 			return response
 		} else {
 			Alert.alert('Error', response.status.toString())
+			return null
 		}
 	}
 	
@@ -36,8 +37,10 @@ class AuthController {
 			})
 			if (response.ok) {
 				Alert.alert('Berhasil', 'Registrasi berhasil! Silahkan login')
+				return true
 			} else {
 				Alert.alert('Error', response.status.toString())
+				return false
 			}
 		}
 	}

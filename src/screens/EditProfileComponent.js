@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard, DatePickerIOS, Button, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, DatePickerAndroid, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard, DatePickerIOS, Button, ScrollView, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 // import RNGooglePlacePicker from 'react-native-google-place-picker'
@@ -26,7 +26,8 @@ class EditProfileComponent extends Component {
 			lastDonor: null,
 			visibleModal: false,
 			datepick: new Date(),
-			activeDate: null
+			activeDate: null,
+			isEditing: false
 		}
 	}
 
@@ -43,6 +44,7 @@ class EditProfileComponent extends Component {
 	}
 
 	async updateProfile(dataIdentitas) {
+		this.setState({ isEditing: true })
 		let response = await ProfileController.editProfile(dataIdentitas, this.props.token)
 		if (response) {
 			if (this.props.navigation.state.params) {
@@ -51,6 +53,7 @@ class EditProfileComponent extends Component {
 				this.props.navigation.goBack()
 			}
 		} else {
+			this.setState({ isEditing: false })
 			Alert.alert('Error', 'Response is null')
 		}
 	}
@@ -80,6 +83,18 @@ class EditProfileComponent extends Component {
 			}
 		} else {
 			this.setState({ visibleModal: true, activeDate: field })
+		}
+	}
+
+	renderEditText() {
+		if (!this.state.isEditing) {
+			return (
+				<Text style={styles.buttonText}>Edit</Text>
+			)
+		} else {
+			return (
+				<ActivityIndicator color={'white'}/>
+			)
 		}
 	}
 
@@ -135,7 +150,7 @@ class EditProfileComponent extends Component {
 								</TouchableOpacity>
 							</View>
 							<CustomButton style={styles.button} onPress={() => this.updateProfile(this.state)}>
-								<Text style={styles.buttonText}>Edit</Text>
+								{this.renderEditText()}
 							</CustomButton>
 						</View>
 						<Modal isVisible={this.state.visibleModal} style={styles.bottomModal}>

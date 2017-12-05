@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Image, Text, TouchableWithoutFeedback, Keyboard, Alert, StatusBar } from 'react-native'
+import { View, StyleSheet, Image, Text, TouchableWithoutFeedback, Keyboard, Alert, StatusBar, ActivityIndicator } from 'react-native'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
@@ -18,19 +18,37 @@ class LoginComponent extends Component {
 		super(props)
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			isLoggingIn: false
 		}
 	}
 
 	async login(email, password) {
+		this.setState({ isLoggingIn: true })
 		let response = await AuthController.login(email, password)
-		if (response.user.tipe == 'admin') {
-			this.props.navigation.navigate('AdminMain')
-		}
-		else if (response.dataLengkap) {
-			this.props.navigation.navigate('Main')
+		if (response) {
+			if (response.user.tipe == 'admin') {
+				this.props.navigation.navigate('AdminMain')
+			}
+			else if (response.dataLengkap) {
+				this.props.navigation.navigate('Main')
+			} else {
+				this.props.navigation.navigate('EditProfile', { from: 'Login' })
+			}
 		} else {
-			this.props.navigation.navigate('EditProfile', { from: 'Login' })
+			this.setState({ isLoggingIn: false })
+		}
+	}
+
+	renderLoginText() {
+		if (!this.state.isLoggingIn) {
+			return (
+				<Text style={styles.buttonText}>Login</Text>
+			)
+		} else {
+			return (
+				<ActivityIndicator color={'white'} />
+			)
 		}
 	}
 
@@ -50,7 +68,7 @@ class LoginComponent extends Component {
 						<Icon name={'vpn-key'} size={20} style={{ margin: 5, marginRight: 10, alignSelf: 'center' }}/>
 					</CustomTextInput>
 					<CustomButton style={styles.button} onPress={() => this.login(this.state.email, this.state.password)}>
-						<Text style={styles.buttonText}>Login</Text>
+						{this.renderLoginText()}
 					</CustomButton>
 					<View style={styles.divider}/>
 					<View>
