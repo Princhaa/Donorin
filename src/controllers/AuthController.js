@@ -12,7 +12,7 @@ class AuthController {
 		let response = await post('/login', { 
 			email: email,
 			password: password,
-			fcm_token: firebase.messaging().getToken()
+			fcm_token: await firebase.messaging().getToken()
 		})
 		if (response.ok) {
 			response = await response.json()
