@@ -1,10 +1,8 @@
-import {
-	post
-} from '../service/APIRequest/API'
+import Controller from './Controller'
 
-class RequestController {
+class RequestController extends Controller {
 	requestBlood = async (dataForm, latitude, longitude, token) => {
-		return await post('/request', {
+		return await this.api.post('/request', {
 			nama: dataForm.name,
 			telepon: dataForm.phone,
 			rumah_sakit: dataForm.hospital,
