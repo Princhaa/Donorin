@@ -1,14 +1,12 @@
 import { Alert } from 'react-native'
 
 import { store } from '../../App'
-import {
-	post
-} from '../service/APIRequest/API'
+import Controller from './Controller'
 import action from '../service/action'
 
-class ProfileController {
+class ProfileController extends Controller {
 	editProfile = async (dataIdentitas, token) => {
-		let response = await post('/profile', {
+		let response = await this.api.post('/profile', {
 			nama: dataIdentitas.name,
 			telepon: dataIdentitas.phone,
 			alamat: dataIdentitas.location,

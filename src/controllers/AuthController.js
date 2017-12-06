@@ -2,14 +2,12 @@ import { Alert } from 'react-native'
 import firebase from 'react-native-firebase'
 
 import { store } from '../../App'
-import { 
-	post
-} from '../service/APIRequest/API'
+import Controller from './Controller'
 import action from '../service/action'
 
-class AuthController {
+class AuthController extends Controller {
 	login = async (email, password) => {
-		let response = await post('/login', { 
+		let response = await this.api.post('/login', { 
 			email: email,
 			password: password,
 			fcm_token: await firebase.messaging().getToken()
@@ -20,7 +18,7 @@ class AuthController {
 			store.dispatch(action.setToken(response.token))
 			return response
 		} else {
-			Alert.alert('Error', response.status.toString())
+			Alert.alert('Error', 'Email dan password tidak ditemukan')
 			return null
 		}
 	}
@@ -30,7 +28,7 @@ class AuthController {
 		if (dataRegistrasi.password != dataRegistrasi.passwordConfirm) {
 			Alert.alert('Error', 'Password doesn\'t match')
 		} else {
-			let response = await post('/register', {
+			let response = await this.api.post('/register', {
 				email: dataRegistrasi.email,
 				password: dataRegistrasi.password,
 				passwordConfirmation: dataRegistrasi.passwordConfirm,

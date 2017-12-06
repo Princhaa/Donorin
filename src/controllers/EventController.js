@@ -1,13 +1,9 @@
-import {
-	post,
-	get
-} from '../service/APIRequest/API'
-
 import { Alert } from 'react-native'
+import Controller from './Controller'
 
-class EventController{
+class EventController extends Controller {
 	addEvent = async (eventData, token) => {
-		let response = await post('/event', {
+		let response = await this.api.post('/event', {
 			eventData
 		}, {
 			'Authorization': 'Bearer ' + token
@@ -16,7 +12,7 @@ class EventController{
 	}
 
 	getEvents = async (latitude, longitude, token) => {
-		let response = await get(`/event?lokasi=${latitude},${longitude}`, {
+		let response = await this.api.get(`/event?lokasi=${latitude},${longitude}`, {
 			'Authorization': 'Bearer '+token
 		})
 		if (response.ok) {
