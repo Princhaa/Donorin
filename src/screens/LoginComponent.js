@@ -23,6 +23,15 @@ class LoginComponent extends Component {
 		}
 	}
 
+	async componentWillMount() {
+		let isLoggedIn = await AuthController.getUserSession()
+		if (isLoggedIn == 'admin') {
+			this.props.navigation.navigate('AdminMain')			
+		} else if (isLoggedIn == 'user') {
+			this.props.navigation.navigate('Main')			
+		}
+	}
+
 	async login(email, password) {
 		this.setState({ isLoggingIn: true })
 		let response = await AuthController.login(email, password)

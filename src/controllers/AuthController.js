@@ -1,4 +1,4 @@
-import { Alert } from 'react-native'
+import { Alert, AsyncStorage } from 'react-native'
 import firebase from 'react-native-firebase'
 
 import { store } from '../../App'
@@ -16,6 +16,7 @@ class AuthController extends Controller {
 			response = await response.json()
 			store.dispatch(action.setUserData(response.user))
 			store.dispatch(action.setToken(response.token))
+			AsyncStorage.setItem('userData', JSON.stringify(response))
 			return response
 		} else {
 			Alert.alert('Error', 'Email dan password tidak ditemukan')
@@ -24,7 +25,6 @@ class AuthController extends Controller {
 	}
 	
 	register = async (dataRegistrasi) => {
-		console.log(dataRegistrasi)
 		if (dataRegistrasi.password != dataRegistrasi.passwordConfirm) {
 			Alert.alert('Error', 'Password doesn\'t match')
 		} else {
@@ -40,6 +40,18 @@ class AuthController extends Controller {
 				Alert.alert('Error', response.status.toString())
 				return false
 			}
+		}
+	}
+
+	getUserSession = async () => {
+		let userData = await AsyncStorage.getItem('userData')
+		if (userData) {
+			userData = JSON.parse(userData)
+			await store.dispatch(action.setUserData(userData.user))
+			await store.dispatch(action.setToken(userData.token))
+			return userData.user.tipe
+		} else {
+			return false
 		}
 	}
 	
