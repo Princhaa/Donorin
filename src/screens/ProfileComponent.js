@@ -25,7 +25,7 @@ class ProfileComponent extends Component {
 	}
 
 	render() {
-		const { alamat, golongan_darah, nama, terakhir_donor, telepon } = this.props.userData
+		const { alamat, golongan_darah, nama, terakhir_donor, telepon, rhesus } = this.props.userData
 		return(
 			<ScrollView style={{ flex: 1 }}>
 				<View style={styles.container}>
@@ -41,8 +41,6 @@ class ProfileComponent extends Component {
 							<Image source={require('../../assets/ava.png')} style={{ width: 100, height: 100, flex: 1 }}/>
 						</View>
 						<View style={[styles.center, { paddingTop: 20, flexDirection: 'row', marginTop: 20 }]}>
-							<Icon name={'drop'} color={metrics.COLOR_PRIMARY} size={20}/>
-							<Text style={styles.red}>300</Text>
 						</View>
 					</View>
 					<View style={{ alignItems: 'center', marginTop: 5 }}>
@@ -59,7 +57,7 @@ class ProfileComponent extends Component {
 								<Text style={[styles.white, { fontSize: 17.5, marginTop: 5 }]}>30 Oktober 2017</Text>
 							</View>
 						</View>
-						<Text style={styles.profileDetail}>Golongan Darah: {golongan_darah}</Text>
+						<Text style={styles.profileDetail}>Golongan Darah: {golongan_darah} {rhesus}</Text>
 						<Text style={styles.profileDetail}>{alamat}</Text>
 						<Text style={[styles.profileDetail, { marginBottom: 10 }]}>{telepon}</Text>
 						<View style={styles.divider}/>
