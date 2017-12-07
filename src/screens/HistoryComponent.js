@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, StyleSheet, Image, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import Modal from 'react-native-modal'
 
 import HistoryItem from '../components/HistoryItem'
 import HistoryController from '../controllers/HistoryController'
@@ -17,13 +18,19 @@ class HistoryComponent extends Component {
 		super(props)
 		this.state = {
 			history: null,
-			isLoading: true
+			isLoading: true,
+			isModalVisible: false,
+			activeId: 0
 		}
 	}
 
 	async componentDidMount() {
 		let response = await HistoryController.getHistory(this.props.token)
 		this.setState({ isLoading: false, history: response })
+	}
+
+	showModal(id) {
+		this.setState({ isModalVisible: true, activeId: id })
 	}
 
 	render() {
@@ -39,14 +46,22 @@ class HistoryComponent extends Component {
 					<View style={styles.container}>
 						<FlatList 
 							data={this.state.history}
-							renderItem={({ item }) => {
+							renderItem={({ item }) => 
 								<HistoryItem 
 									date={moment(item.createdAt).format('DD MMMM YYYY')}
 									place={item.rumah_sakit}
 									time={moment(item.createdAt).format('HH:MM')}
+									type={item.type}
+									onPress={() => this.showModal(item.id)}
 								/>
-							}}
+							}
+							keyExtractor={( item ) => item.id}
 						/>
+						<Modal isVisible={this.state.isModalVisible} style={{ alignItems: 'center' }}>
+							<TouchableOpacity onPress={() => this.setState({ isModalVisible: false })}>
+								<Image source={{ uri: metrics.BASE_URL+`/qr/request/${this.state.activeId}` }} style={styles.modalContent}/>
+							</TouchableOpacity>
+						</Modal>						
 					</View>
 				)
 			} else {
@@ -65,9 +80,19 @@ class HistoryComponent extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		alignItems: 'center'
+	},
+
+	modalContent: {
+		backgroundColor: 'white',
+		padding: 22,
+		justifyContent: 'center',
 		alignItems: 'center',
-		padding: 20
-	}
+		borderRadius: 4,
+		borderColor: 'rgba(0, 0, 0, 0.1)',
+		width: metrics.DEVICE_WIDTH * 0.8,
+		height: metrics.DEVICE_WIDTH * 0.8
+	},
 })
 
 const mapStateToProps = (state) => {

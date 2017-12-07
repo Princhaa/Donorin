@@ -42,6 +42,11 @@ class LoginComponent extends Component {
 				this.props.navigation.navigate('DetailComponent', payload)
 			}
 		})
+		firebase.messaging().onMessage((payload) => {
+			if (payload.nama) {
+				this.props.navigation.navigate('DetailComponent', payload)
+			}
+		})		
 	}
 
 	async login(email, password) {

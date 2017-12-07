@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 import metrics from '../config/metrics'
 
-const HistoryItem = ({ date, place, time, ...otherProps }) => (
+const HistoryItem = ({ date, place, time, type, ...otherProps }) => (
 	<TouchableOpacity style={styles.container} {...otherProps}>
 		<View style={{ flex: 1, flexDirection: 'row' }}>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
@@ -12,7 +12,7 @@ const HistoryItem = ({ date, place, time, ...otherProps }) => (
 			</View>
 			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingVertical: 20 }}>
 				<View style={styles.label}>
-					<Text style={[styles.text, { color: 'white', fontSize: 12 }]}>label</Text>
+					<Text style={[styles.text, { color: 'white', fontSize: 12, backgroundColor: metrics.COLOR_PRIMARY, padding: 10, borderRadius: 5 }]}>{type}</Text>
 				</View>
 				<Text>{time}</Text>
 			</View>
@@ -44,9 +44,8 @@ const styles = StyleSheet.create({
 	},
 
 	label: {
-		backgroundColor: metrics.COLOR_PRIMARY,
 		borderRadius: 5,
-		width: 50,
+		width: 120,
 		height: 15,
 		position: 'absolute',
 		top: 0,
