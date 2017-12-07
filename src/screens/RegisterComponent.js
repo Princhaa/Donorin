@@ -25,10 +25,8 @@ class RegisterComponent extends Component {
 
 	async register(dataRegistrasi) {
 		this.setState({ isRegistering: true })
-		let response = await AuthController.register(dataRegistrasi)
-		if (!response) {
-			this.setState({ isRegistering: false })
-		}
+		await AuthController.register(dataRegistrasi)
+		this.setState({ isRegistering: false })
 	}
 
 	renderRegisterText() {

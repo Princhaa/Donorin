@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Linking } from 'react-native'
 
 import metrics from '../config/metrics'
 import CustomButton from '../components/CustomButton'
@@ -11,14 +11,15 @@ export default class DetailComponent extends Component {
 	}
 
 	render() {
+		const { nama, rumah_sakit, latitude, longitude, alamat, telepon } = this.props.navigation.state.params
 		return(
 			<View style={styles.container}>
 				<View style={styles.card}>
-					<Text style={styles.text}>Ananta Pratama</Text>
-					<Text style={styles.text}>081330747579</Text>
-					<Text style={styles.text}>Rumah Sakit Permata Bunda</Text>
-					<Text style={styles.text}>Jl. Permata</Text>
-					<CustomButton style={styles.button}>
+					<Text style={styles.text}>{nama}</Text>
+					<Text style={styles.text}>{telepon}</Text>
+					<Text style={styles.text}>{rumah_sakit}</Text>
+					<Text style={styles.text}>{alamat}</Text>
+					<CustomButton style={styles.button} onPress={() => Linking.openURL(`http://maps.google.com/maps?daddr=${latitude},${longitude}`)}>
 						<Text style={styles.buttonText}>Buka Lokasi</Text>
 					</CustomButton>
 				</View>

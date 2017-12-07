@@ -3,13 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 import metrics from '../config/metrics'
 
-const HistoryItem = ({ date, place, address, time, ...otherProps }) => (
+const HistoryItem = ({ date, place, time, ...otherProps }) => (
 	<TouchableOpacity style={styles.container} {...otherProps}>
 		<View style={{ flex: 1, flexDirection: 'row' }}>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
 				<Text style={[styles.text, { fontSize: 10 }]}>{date}</Text>
 				<Text style={[styles.text, { fontSize: 15 }]}>{place}</Text>
-				<Text style={styles.text}>{address}</Text>
 			</View>
 			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingVertical: 20 }}>
 				<View style={styles.label}>

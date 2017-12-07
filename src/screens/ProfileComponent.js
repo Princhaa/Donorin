@@ -19,8 +19,8 @@ class ProfileComponent extends Component {
 		}
 	}
 
-	logout() {
-		AuthController.deleteToken()
+	async logout() {
+		await AuthController.deleteToken()
 		this.props.screenProps.navigate('Login')
 	}
 

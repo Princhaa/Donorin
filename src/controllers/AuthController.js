@@ -55,8 +55,9 @@ class AuthController extends Controller {
 		}
 	}
 	
-	deleteToken = () => {
-		store.dispatch(action.login())
+	deleteToken = async () => {
+		await store.dispatch(action.login())
+		await AsyncStorage.removeItem('userData')
 	}
 }
 

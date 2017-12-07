@@ -24,9 +24,7 @@ export const store = configureStores({})
 class DonorinApp extends Component {
 
 	componentDidMount() {
-		firebase.messaging().getInitialNotification().then((params) => {
-			console.log(params)
-		})
+		
 	}
 
 	render() {

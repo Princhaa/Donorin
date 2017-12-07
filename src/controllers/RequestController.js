@@ -8,7 +8,8 @@ class RequestController extends Controller {
 			rumah_sakit: dataForm.hospital,
 			golongan_darah: dataForm.selectedBlood,
 			rhesus: dataForm.selectedRhesus,
-			lokasi: latitude+','+longitude
+			lokasi: latitude+','+longitude,
+			alamat: dataForm.location
 		}, {
 			'Authorization': 'Bearer '+token
 		})
