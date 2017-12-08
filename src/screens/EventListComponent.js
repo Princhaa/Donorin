@@ -26,14 +26,17 @@ class EventListComponent extends Component {
 				<Icon name={'event'} size={20} color={focused ? metrics.COLOR_PRIMARY : '#909090'}/>
 			)
 		}
-		
+	}
+
+	async getPlaces(latitude, longitude) {
+		let events = await EventController.getEvents(latitude, longitude, this.props.token)
+		this.setState({ events: events, isDataLoaded: true })
 	}
 
 	async componentDidMount() {
 		let places = await RNGooglePlaces.getCurrentPlace()
 		let { latitude, longitude } = await places[0]
-		let events = await EventController.getEvents(latitude, longitude, this.props.token)
-		this.setState({ events: events, isDataLoaded: true })
+		await this.getPlaces(latitude, longitude)
 	}
 
 	renderList() {
