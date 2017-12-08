@@ -28,15 +28,12 @@ class EventListComponent extends Component {
 		}
 	}
 
-	async getPlaces(latitude, longitude) {
-		let events = await EventController.getEvents(latitude, longitude, this.props.token)
-		this.setState({ events: events, isDataLoaded: true })
-	}
-
 	async componentDidMount() {
 		let places = await RNGooglePlaces.getCurrentPlace()
 		let { latitude, longitude } = await places[0]
 		await this.getPlaces(latitude, longitude)
+		let events = await EventController.getEvents(latitude, longitude, this.props.token)
+		this.setState({ events: events, isDataLoaded: true })
 	}
 
 	renderList() {
