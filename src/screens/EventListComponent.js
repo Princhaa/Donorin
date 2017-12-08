@@ -56,7 +56,7 @@ class EventListComponent extends Component {
 			)
 		} else {
 			return (
-				<ActivityIndicator />
+				<ActivityIndicator color={metrics.COLOR_PRIMARY}/>
 			)
 		}
 	}

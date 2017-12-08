@@ -6,9 +6,11 @@ import metrics from '../config/metrics'
 import EventListComponent from './EventListComponent'
 import ScannerComponent from './ScannerComponent'
 import ProfileComponent from './ProfileComponent'
+import MapComponent from './MapComponent'
 
 const MainScreen = TabNavigator({
 	Events: { screen: EventListComponent },
+	Map: { screen: MapComponent },
 	ScanQR: { screen: ScannerComponent },
 	Profile: { screen: ProfileComponent }
 }, {
