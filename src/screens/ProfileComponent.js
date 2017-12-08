@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, StatusBar, Image, TouchableOpacity, ScrollView } from 'react-native'
-import Icon from 'react-native-vector-icons/Entypo'
 import MD from 'react-native-vector-icons/MaterialIcons'
 import Ion from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'

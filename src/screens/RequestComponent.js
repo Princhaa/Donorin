@@ -35,7 +35,7 @@ class RequestComponent extends Component {
 			.then((place) => {
 				this.setState({ location: place.address, latlng: place })
 			})
-			.catch(error => console.log(error.message))
+			.catch(error => Alert.alert('Error', error.message))
 	}
 
 	async requestBlood() {

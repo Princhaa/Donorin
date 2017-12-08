@@ -60,7 +60,6 @@ class AddEventComponent extends Component {
 			])
 		} else {
 			Alert.alert('Pemberitahuan', 'Terjadi error')
-			console.log(response)
 		}
 	}
 
@@ -78,7 +77,7 @@ class AddEventComponent extends Component {
 						this.setState({ date: year + '-' + (month+1) + '-' + day })				
 					}
 				} catch ({code, message}) {
-					console.warn('Cannot open date picker', message)
+					Alert.alert('Cannot open date picker', message)
 				}
 			} else {
 				try {
@@ -93,7 +92,7 @@ class AddEventComponent extends Component {
 						this.setState({ selectedTime: moment(this.state.date + ' ' + hour + ':' + minute, 'YYYY-MM-DD HH:mm').toISOString() })
 					}
 				} catch({code, message}) {
-					console.warn('Cannot open date picker', message)
+					Alert.alert('Cannot open date picker', message)
 				}
 			}
 		} else {
@@ -118,7 +117,7 @@ class AddEventComponent extends Component {
 			.then((place) => {
 				this.setState({ location: place.address, coordinate: place.latitude+','+place.longitude })
 			})
-			.catch(error => console.log(error.message))
+			.catch(error => Alert.alert('Error', error.message))
 	}
 
 	formatDate() {

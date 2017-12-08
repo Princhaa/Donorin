@@ -26,7 +26,7 @@ class MapComponent extends Component {
 		}
 	}
 
-	async getPlaces(latitide, longitude) {
+	async getPlaces(latitude, longitude) {
 		let events = await EventController.getEvents(latitude, longitude, this.props.token)
 		this.setState({ events: events, isDataLoaded: true })
 	}
