@@ -3,7 +3,6 @@ import Controller from './Controller'
 
 class EventController extends Controller {
 	addEvent = async (eventData, token) => {
-		console.log(eventData)
 		let response = await this.api.post('/event', eventData, {
 			'Authorization': 'Bearer ' + token
 		})
