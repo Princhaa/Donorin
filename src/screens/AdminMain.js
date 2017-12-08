@@ -13,9 +13,15 @@ class AdminMain extends Component {
 
 	static navigationOptions = {
 		title: 'Donorin',
-		headerLeft: null,
-		isDataLoaded: false,
-		events: null
+		headerLeft: null
+	}
+
+	constructor(props){
+		super(props)
+		this.state = {
+			isDataLoaded: false,
+			events: null
+		}
 	}
 
 	async componentDidMount() {

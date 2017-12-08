@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button, DatePickerAndroid, Keyboard, DatePickerIOS, TouchableWithoutFeedback, Alert } from 'react-native'
+import { View, Text, StyleSheet, Button, DatePickerAndroid, Keyboard, DatePickerIOS, TouchableWithoutFeedback, Alert, TimePickerAndroid } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons'
 import RNGooglePlaces from 'react-native-google-places'
@@ -47,10 +47,10 @@ class AddEventComponent extends Component {
 	async addEvent() {
 		let response = await EventController.addEvent({
 			nama: this.state.name,
-			alamat: this.state.address,
+			alamat: this.state.location,
 			waktu: this.state.selectedTime,
 			lokasi: this.state.coordinate
-		})
+		}, this.props.token)
 		if (response.ok) {
 			Alert.alert('Pemberitahuan', 'Event berhasil dibuat', [
 				{
@@ -67,17 +67,34 @@ class AddEventComponent extends Component {
 	async openDate(type) {
 		Keyboard.dismiss()
 		if (metrics.OS == 'android') {
-			try {
-				let {action, year, month, day} = await DatePickerAndroid.open({
-					date: new Date()
-				})
-				if (action !== DatePickerAndroid.dismissedAction) {
-					month = this.normalizeDate(month)
-					day = this.normalizeDate(day)
-					this.setState({ date: year + '-' + (month+1) + '-' + day })				
+			if (type == 'date') {
+				try {
+					let {action, year, month, day} = await DatePickerAndroid.open({
+						date: new Date()
+					})
+					if (action !== DatePickerAndroid.dismissedAction) {
+						month = this.normalizeDate(month)
+						day = this.normalizeDate(day)
+						this.setState({ date: year + '-' + (month+1) + '-' + day })				
+					}
+				} catch ({code, message}) {
+					console.warn('Cannot open date picker', message)
 				}
-			} catch ({code, message}) {
-				console.warn('Cannot open date picker', message)
+			} else {
+				try {
+					let { action, hour, minute } = await TimePickerAndroid.open({
+						hour: 14,
+						minute: 0
+					})
+					if (action !== TimePickerAndroid.dismissedAction) {
+						hour = this.normalizeDate(hour)
+						minute = this.normalizeDate(minute)
+						this.setState({ time: hour + ':' + minute })
+						this.setState({ selectedTime: moment(this.state.date + ' ' + hour + ':' + minute, 'YYYY-MM-DD HH:mm').toISOString() })
+					}
+				} catch({code, message}) {
+					console.warn('Cannot open date picker', message)
+				}
 			}
 		} else {
 			this.setState({ visibleModal: true, dateType: type })
