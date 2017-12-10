@@ -21,7 +21,7 @@ class MapComponent extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			events: null,
+			events: [],
 			isDataLoaded: false
 		}
 	}
@@ -40,14 +40,15 @@ class MapComponent extends Component {
 	renderMarker() {
 		if (this.state.isDataLoaded) {
 			return this.state.events.map(marker => {
+				console.log(marker)
 				return (
 					<MapView.Marker 
-						coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+						coordinate={{ latitude: parseFloat(marker.latitude), longitude: parseFloat(marker.longitude) }}
 						pinColor={metrics.COLOR_PRIMARY}
 					>
 						<MapView.Callout onPress={() => Linking.openURL(`http://maps.google.com/maps?daddr=${marker.latitude},${marker.longitude}`)}>
 							<View style={{ backgroundColor: 'white', padding: 10 }}>
-								<Text style={{ color: 'black' }}>{marker.alamat}</Text>
+								<Text style={{ color: 'black' }}>{marker.nama}</Text>
 							</View>
 						</MapView.Callout>
 					</MapView.Marker>
