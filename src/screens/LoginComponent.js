@@ -5,6 +5,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import firebase from 'react-native-firebase'
+import { NavigationActions } from 'react-navigation'
 
 import CustomTextInput from '../components/CustomTextInput'
 import CustomButton from '../components/CustomButton'
@@ -12,6 +13,28 @@ import metrics from '../config/metrics'
 import AuthController from '../controllers/AuthController'
 
 import logo from '../../assets/logo.png'
+
+const loginUser = NavigationActions.reset({
+	index: 0,
+	actions: [
+		NavigationActions.navigate({ routeName: 'Main'})
+	]
+})
+
+const loginAdmin = NavigationActions.reset({
+	index: 0,
+	actions: [
+		NavigationActions.navigate({ routeName: 'AdminMain'})
+	]
+})
+
+const editProfile = NavigationActions.reset({
+	index: 0,
+	actions: [
+		NavigationActions.navigate({ routeName: 'EditProfile', params: { from: 'Login' } })
+	]
+})
+
 
 class LoginComponent extends Component {
 
@@ -28,9 +51,9 @@ class LoginComponent extends Component {
 	async componentWillMount() {
 		let isLoggedIn = await AuthController.getUserSession()
 		if (isLoggedIn == 'admin') {
-			this.props.navigation.navigate('AdminMain')			
+			this.props.navigation.dispatch(loginAdmin)		
 		} else if (isLoggedIn == 'user') {
-			this.props.navigation.navigate('Main')			
+			this.props.navigation.dispatch(loginUser)		
 		} else {
 			this.setState({ isGettingSession: false })
 		}
@@ -54,12 +77,12 @@ class LoginComponent extends Component {
 		let response = await AuthController.login(email, password)
 		if (response) {
 			if (response.user.tipe == 'admin') {
-				this.props.navigation.navigate('AdminMain')
+				this.props.navigation.dispatch(loginAdmin)
 			}
 			else if (response.dataLengkap) {
-				this.props.navigation.navigate('Main')
+				this.props.navigation.dispatch(loginUser)
 			} else {
-				this.props.navigation.navigate('EditProfile', { from: 'Login' })
+				this.props.navigation.dispatch(editProfile)
 			}
 		} else {
 			this.setState({ isLoggingIn: false })

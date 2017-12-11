@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-const EventItemAdmin = ({ date, place, address, time, ...otherProps }) => (
+const EventItemAdmin = ({ date, place, address, time, onPress, ...otherProps }) => (
 	<View style={styles.container} {...otherProps}>
 		<View style={{ flex: 1, flexDirection: 'row' }}>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
@@ -13,7 +13,7 @@ const EventItemAdmin = ({ date, place, address, time, ...otherProps }) => (
 			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
 				<Text style={styles.text}>{time}</Text>
 			</View>
-			<TouchableOpacity style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center' }}>
+			<TouchableOpacity style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center' }} onPress={onPress}>
 				<Icon name={'md-trash'} color={'red'} size={20}/>
 			</TouchableOpacity>
 		</View>

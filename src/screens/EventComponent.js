@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Image, FlatList, ActivityIndicator, Text } from 'react-native'
 import RNGooglePlaces from 'react-native-google-places'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -8,8 +8,9 @@ import FloatingButton from '../components/FloatingButton'
 import EventItem from '../components/EventItemAdmin'
 import metrics from '../config/metrics'
 import EventController from '../controllers/EventController'
+import CustomButton from '../components/CustomButton'
 
-class AdminMain extends Component {
+class EventComponent extends Component {
 
 	static navigationOptions = {
 		title: 'Donorin',
@@ -25,10 +26,26 @@ class AdminMain extends Component {
 	}
 
 	async componentDidMount() {
-		let places = await RNGooglePlaces.getCurrentPlace()
-		let { latitude, longitude } = await places[0]
-		let events = await EventController.getEvents(latitude, longitude, this.props.token)
+		let place
+		try {
+			let places = await RNGooglePlaces.getCurrentPlace()
+			place = await places[0]
+		} catch(err) {
+			place = {
+				latitude: -7.95372210,
+				longitude: 112.61457060
+			}
+		}
+		let events = await EventController.getEvents(place.latitude, place.longitude, this.props.token)
 		this.setState({ events: events, isDataLoaded: true })
+	}
+
+	async deleteEvent(eventId) {
+		let response = await EventController.deleteEvent(eventId, this.props.token)
+		if (response) {
+			this.setState({ isDataLoaded: false })
+			this.componentDidMount()
+		}
 	}
 
 	renderList() {
@@ -43,6 +60,7 @@ class AdminMain extends Component {
 								place={item.nama}
 								address={item.alamat}
 								time={moment(item.waktu).format('HH:MM')}
+								onPress={() => this.deleteEvent(item.id)}
 							/>
 						)
 					}}
@@ -64,6 +82,9 @@ class AdminMain extends Component {
 				<View style={styles.content}>
 					{this.renderList()}
 				</View>
+				<CustomButton style={styles.button} onPress={() => this.props.navigation.navigate('UserList')}>
+					<Text style={styles.buttonText}>Daftar Pengguna</Text>
+				</CustomButton>
 			</View>
 		)
 	}
@@ -116,7 +137,19 @@ const styles = StyleSheet.create({
 		},
 		shadowRadius: 4,
 		shadowOpacity: 1,
-	}
+	},
+
+	buttonText: {
+		color: 'white'
+	},
+
+	button: {
+		width: metrics.DEVICE_WIDTH * 0.5,
+		backgroundColor: metrics.COLOR_PRIMARY,
+		position: 'absolute',
+		top: 20,
+		right: 10
+	},
 })
 
 const mapStateToProps = (state) => {
@@ -125,4 +158,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(AdminMain)
+export default connect(mapStateToProps)(EventComponent)

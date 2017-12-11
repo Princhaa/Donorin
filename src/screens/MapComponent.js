@@ -40,7 +40,6 @@ class MapComponent extends Component {
 	renderMarker() {
 		if (this.state.isDataLoaded) {
 			return this.state.events.map(marker => {
-				console.log(marker)
 				return (
 					<MapView.Marker 
 						coordinate={{ latitude: parseFloat(marker.latitude), longitude: parseFloat(marker.longitude) }}

@@ -3,10 +3,18 @@ import { View, StyleSheet, Text, StatusBar, Image, TouchableOpacity, ScrollView 
 import MD from 'react-native-vector-icons/MaterialIcons'
 import Ion from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
-import AuthController from '../controllers/AuthController'
+import { NavigationActions } from 'react-navigation'
 
+import AuthController from '../controllers/AuthController'
 import CustomButton from '../components/CustomButton'
 import metrics from '../config/metrics'
+
+const logout = NavigationActions.reset({
+	index: 0,
+	actions: [
+		NavigationActions.navigate({ routeName: 'Login' })
+	]
+})
 
 class ProfileComponent extends Component {
 
@@ -20,7 +28,7 @@ class ProfileComponent extends Component {
 
 	async logout() {
 		await AuthController.deleteToken()
-		this.props.screenProps.navigate('Login')
+		this.props.screenProps.dispatch(logout)
 	}
 
 	render() {

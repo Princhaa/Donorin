@@ -13,11 +13,12 @@ import MainScreen from '../../screens/MainScreen'
 import EditProfileComponent from '../../screens/EditProfileComponent'
 import ChangePassword from '../../screens/ChangePassword'
 import RequestComponent from '../../screens/RequestComponent'
-import AdminMain from '../../screens/AdminMain'
+import EventComponent from '../../screens/EventComponent'
 import AddEventComponent from '../../screens/AddEventComponent'
 import Scan from '../../screens/Scan'
 import HistoryComponent from '../../screens/HistoryComponent'
 import DetailComponent from '../../screens/DetailComponent'
+import UserListComponent from '../../screens/UserListComponent'
 
 const App = StackNavigator({
 	Login: { screen: LoginComponent },
@@ -26,11 +27,12 @@ const App = StackNavigator({
 	EditProfile: { screen: EditProfileComponent },
 	ChangePassword: { screen: ChangePassword },
 	RequestComponent: { screen: RequestComponent },
-	AdminMain: { screen: AdminMain },
+	AdminMain: { screen: EventComponent },
 	AddEvent: { screen: AddEventComponent },
 	Scan: { screen: Scan },
 	HistoryComponent: { screen: HistoryComponent },
-	DetailComponent: { screen: DetailComponent }
+	DetailComponent: { screen: DetailComponent },
+	UserList: { screen: UserListComponent }
 }, {
 	initialRouteName: 'Login',
 	navigationOptions: {

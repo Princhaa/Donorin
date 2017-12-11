@@ -7,11 +7,19 @@ import Modal from 'react-native-modal'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 
 import CustomButton from '../components/CustomButton'
 import CustomTextInput from '../components/CustomTextInput'
 import metrics from '../config/metrics'
 import EventController from '../controllers/EventController'
+
+const refresh = NavigationActions.reset({
+	index: 0,
+	actions: [
+		NavigationActions.navigate({ routeName: 'AdminMain' })
+	]
+})
 
 class AddEventComponent extends Component {
 
@@ -55,7 +63,7 @@ class AddEventComponent extends Component {
 			Alert.alert('Pemberitahuan', 'Event berhasil dibuat', [
 				{
 					text: 'OK',
-					onPress: () => this.props.navigation.goBack(null)
+					onPress: () => this.props.navigation.dispatch(refresh)
 				}
 			])
 		} else {

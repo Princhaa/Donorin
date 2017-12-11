@@ -19,6 +19,20 @@ class EventController extends Controller {
 			Alert.alert('Pemberitahuan', 'Cek koneksi anda')
 		}
 	}
+
+	deleteEvent = async (eventId, token) => {
+		let response = await this.api.post('/event/delete', {
+			'id': eventId
+		}, {
+			'Authorization': 'Bearer '+token
+		})
+		if (response.ok) {
+			return await response.json()
+		} else {
+			Alert.alert('Error', response.message)
+			return null
+		}
+	}
 }
 
 export default new EventController()
