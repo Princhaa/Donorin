@@ -54,7 +54,6 @@ class EditProfileComponent extends Component {
 			}
 		} else {
 			this.setState({ isEditing: false })
-			Alert.alert('Error', 'Response is null')
 		}
 	}
 
@@ -72,10 +71,14 @@ class EditProfileComponent extends Component {
 					if (day < 10) {
 						day = '0'+day
 					}
+					if (month < 10) {
+						month += 1
+						month = '0'+month
+					}
 					if (field == 'birthday') {
-						this.setState({ birthday: year + '-' + (month+1) + '-' + day })
+						this.setState({ birthday: year + '-' + month + '-' + day })
 					} else {
-						this.setState({ lastDonor: year + '-' + (month+1) + '-' + day })				
+						this.setState({ lastDonor: year + '-' + month + '-' + day })				
 					}
 				}
 			} catch ({code, message}) {

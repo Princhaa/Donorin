@@ -22,6 +22,7 @@ class ProfileController extends Controller {
 			store.dispatch(action.setUserData(response))
 			return response
 		} else {
+			console.log(response)
 			Alert.alert('Error', response.status.toString())
 			return null
 		}

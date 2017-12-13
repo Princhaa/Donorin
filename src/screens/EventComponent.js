@@ -110,7 +110,7 @@ class EventComponent extends Component {
 					<Text style={styles.buttonText}>Daftar Pengguna</Text>
 				</CustomButton>
 				<CustomButton style={styles.logout} onPress={() => this.logout()}>
-					<Text style={styles.buttonText}>Daftar Pengguna</Text>
+					<Text style={styles.buttonText}>Logout</Text>
 				</CustomButton>
 			</View>
 		)
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
 	},
 
 	button: {
-		width: metrics.DEVICE_WIDTH * 0.5,
+		width: metrics.DEVICE_WIDTH * 0.45,
 		backgroundColor: metrics.COLOR_PRIMARY,
 		position: 'absolute',
 		top: 20,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 	},
 
 	logout: {
-		width: metrics.DEVICE_WIDTH * 0.5,
+		width: metrics.DEVICE_WIDTH * 0.45,
 		backgroundColor: metrics.COLOR_PRIMARY,
 		position: 'absolute',
 		top: 20,
