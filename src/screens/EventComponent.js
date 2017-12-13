@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList, ActivityIndicator, Text } from 'react-native'
+import { View, StyleSheet, Image, FlatList, ActivityIndicator, Text, Alert } from 'react-native'
 import RNGooglePlaces from 'react-native-google-places'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -41,11 +41,21 @@ class EventComponent extends Component {
 	}
 
 	async deleteEvent(eventId) {
-		let response = await EventController.deleteEvent(eventId, this.props.token)
-		if (response) {
-			this.setState({ isDataLoaded: false })
-			this.componentDidMount()
-		}
+		Alert.alert(
+			'Hapus',
+			'Apakah anda yakin untuk menghapus event ini?',
+			[
+				{text: 'Tidak', onPress: () => {}, style: 'cancel'},
+				{text: 'Ya', onPress: async () => {
+					let response = await EventController.deleteEvent(eventId, this.props.token)
+					if (response) {
+						this.setState({ isDataLoaded: false })
+						this.componentDidMount()
+					}
+				}},
+			],
+			{ cancelable: false }
+		)
 	}
 
 	renderList() {
