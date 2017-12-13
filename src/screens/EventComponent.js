@@ -3,12 +3,21 @@ import { View, StyleSheet, Image, FlatList, ActivityIndicator, Text, Alert } fro
 import RNGooglePlaces from 'react-native-google-places'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 
 import FloatingButton from '../components/FloatingButton'
 import EventItem from '../components/EventItemAdmin'
 import metrics from '../config/metrics'
 import EventController from '../controllers/EventController'
 import CustomButton from '../components/CustomButton'
+import AuthController from '../controllers/AuthController'
+
+const logout = NavigationActions.reset({
+	index: 0,
+	actions: [
+		NavigationActions.navigate({ routeName: 'Login' })
+	]
+})
 
 class EventComponent extends Component {
 
@@ -84,6 +93,11 @@ class EventComponent extends Component {
 		}
 	}
 
+	async logout() {
+		await AuthController.deleteToken()
+		this.props.navigation.dispatch(logout)
+	}
+
 	render() {
 		return(
 			<View style={styles.container}>
@@ -93,6 +107,9 @@ class EventComponent extends Component {
 					{this.renderList()}
 				</View>
 				<CustomButton style={styles.button} onPress={() => this.props.navigation.navigate('UserList')}>
+					<Text style={styles.buttonText}>Daftar Pengguna</Text>
+				</CustomButton>
+				<CustomButton style={styles.logout} onPress={() => this.logout()}>
 					<Text style={styles.buttonText}>Daftar Pengguna</Text>
 				</CustomButton>
 			</View>
@@ -160,6 +177,14 @@ const styles = StyleSheet.create({
 		top: 20,
 		right: 10
 	},
+
+	logout: {
+		width: metrics.DEVICE_WIDTH * 0.5,
+		backgroundColor: metrics.COLOR_PRIMARY,
+		position: 'absolute',
+		top: 20,
+		left: 10
+	}
 })
 
 const mapStateToProps = (state) => {
